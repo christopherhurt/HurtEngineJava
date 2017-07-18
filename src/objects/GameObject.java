@@ -1,24 +1,24 @@
-package gameObjects;
-
-import java.nio.FloatBuffer;
+package objects;
 
 import maths.Mat4f;
 import maths.Vec3f;
+import renderEngine.Model;
 
-public class GameObject {
+public class GameObject extends RenderObject {
 	
 	private Vec3f pos;
 	private Vec3f rot;
 	private Vec3f scale;
 	
-	public GameObject(Vec3f pos, Vec3f rot, Vec3f scale) {
+	public GameObject(Model model, Vec3f pos, Vec3f rot, Vec3f scale) {
+		super(model);
 		this.pos = pos;
 		this.rot = rot;
 		this.scale = scale;
 	}
 	
-	public FloatBuffer transformation(){
-		return Mat4f.transform(pos, rot, scale).toBuffer();
+	public Mat4f transformation(){
+		return Mat4f.transform(pos, rot, scale);
 	}
 	
 	public Vec3f getPos() {

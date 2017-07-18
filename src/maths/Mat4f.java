@@ -4,6 +4,8 @@ import java.nio.FloatBuffer;
 
 import org.lwjgl.BufferUtils;
 
+import display.Disp;
+
 public class Mat4f {
 	
 	private float[][] m;
@@ -130,6 +132,38 @@ public class Mat4f {
 		Mat4f sc = scale(scale);
 		
 		return trans.mul(rotZ).mul(rotX).mul(rotY).mul(sc);
+	}
+	
+	public static Mat4f perspectiveProjection(float near, float far, float fov){
+		Mat4f projection = new Mat4f();
+		
+		float aspectRatio = (float) Disp.WIDTH / Disp.HEIGHT;
+		float denominator = (float) Math.tan(Math.toRadians(fov / 2));
+		
+		projection.m[0][0] = 1 / (denominator * aspectRatio);
+		projection.m[1][1] = 1 / denominator;
+		projection.m[2][2] = (near + far) / (near - far);
+		projection.m[2][3] = 2 * near * far / (near - far);
+		projection.m[3][2] = -1;
+		projection.m[3][3] = 0;
+		
+		return projection;
+	}
+	
+	public static Mat4f orthographicProjection(float near, float far, float left, float right, float bottom, float top){
+		Mat4f projection = new Mat4f();
+		
+		float aspectRatio = (float) Disp.WIDTH / Disp.HEIGHT;
+		
+		projection.m[0][0] =  2 / ((right - left) * aspectRatio);
+		projection.m[1][1] =  2 / (top - bottom);
+		projection.m[2][2] = -2 / (far - near);
+		projection.m[3][3] = 1;
+		projection.m[0][3] = -(right + left) / (right - left);
+		projection.m[1][3] = -(top + bottom) / (top - bottom);
+		projection.m[2][3] = -(far + near) 	 / (far - near);
+		
+		return projection;
 	}
 	
 }

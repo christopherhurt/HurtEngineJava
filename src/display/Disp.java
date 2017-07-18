@@ -18,6 +18,7 @@ public class Disp {
 			Display.setTitle(TITLE);
 			Display.create();
 			GL11.glClearColor(color.getX(), color.getY(), color.getZ(), 1);
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
