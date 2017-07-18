@@ -5,7 +5,7 @@ import utilities.Resources;
 public class Material {
 	
 	private int texture;
-	private int normalMap;	
+	private int normalMap;
 	
 	private float ambient;
 	private float diffuse;

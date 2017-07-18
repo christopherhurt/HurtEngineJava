@@ -44,13 +44,13 @@ public class MainComponent {
 	};
 		
 	public static void init(){
-		Disp.create(new Vec3f(1, 0, 0));
+		Disp.create(new Vec3f(0, 0, 0));
 		
 		Mesh mesh = new Mesh(indices, vertices, texCoords);
-		Material material = new Material("fatd");
+		Material material = new Material("brick");
 		Model model = new Model(mesh, material);
 		GameObject object = new GameObject(model, new Vec3f(0, 0, -3), new Vec3f(0, 0, 0), new Vec3f(1, 1, 1));
-		GameObject object2 = new GameObject(model, new Vec3f(-3, 3, -5), new Vec3f(0, 0, 0), new Vec3f(0.5f, 0.5f, 0.5f));
+		GameObject object2 = new GameObject(model, new Vec3f(-1, 1, -3), new Vec3f(0, 0, 0), new Vec3f(0.5f, 0.5f, 0.5f));
 		Mat4f projection = Mat4f.perspectiveProjection(0.001f, 1000, 70);
 //		Mat4f projection = Mat4f.orthographicProjection(0.001f, 1000, -5, 5, -5, 5);
 		Handler<GameObject> handler = new Handler<>(new GameObjectShader(projection));
