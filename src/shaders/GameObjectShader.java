@@ -29,12 +29,12 @@ public class GameObjectShader extends Shader<GameObject> {
 	public GameObjectShader(Mat4f projection, Cam cam) {
 		super(VERTEX_SHADER_FILE, FRAGMENT_SHADER_FILE);
 		this.cam = cam;
+		
 		textureLoc = getUniformLocation("tex");
 		transformLoc = getUniformLocation("transform");
 		viewLoc = getUniformLocation("view");
 		projectionLoc = getUniformLocation("projection");
 		
-		// TODO: move?
 		start();
 		loadInt(textureLoc, 0);
 		loadMat4f(projectionLoc, projection);

@@ -64,6 +64,7 @@ public class MainComponent {
 			Disp.clear();
 //			object.setRot(new Vec3f(0, rotX++, 0));
 			object2.setRot(new Vec3f(0, 0, rotX++));
+			cam.update(); // TODO: TEMP
 			handler.render();
 			Disp.update();
 		}

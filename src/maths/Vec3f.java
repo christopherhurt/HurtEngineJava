@@ -11,8 +11,8 @@ public class Vec3f {
 		this.y = y;
 		this.z = z;
 	}
-	// TODO: all methods return new Vec3f????
-	public Vec3f scale(float c){
+	
+	public Vec3f scaled(float c){
 		return new Vec3f(c * x, c * y, c * z);
 	}
 	
@@ -23,6 +23,14 @@ public class Vec3f {
 	public Vec3f normalized(){
 		float length = length();
 		return new Vec3f(x / length, y / length, z / length);
+	}
+	
+	public Vec3f add(Vec3f vec){
+		return new Vec3f(this.x + vec.x, this.y + vec.y, this.z + vec.z);
+	}
+	
+	public Vec3f sub(Vec3f vec){
+		return new Vec3f(this.x - vec.x, this.y - vec.y, this.z - vec.z);
 	}
 	
 	public float dot(Vec3f vec){
