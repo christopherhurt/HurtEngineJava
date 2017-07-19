@@ -166,4 +166,28 @@ public class Mat4f {
 		return projection;
 	}
 	
+	public static Mat4f firstPersonView(){
+		return null; // TODO
+	}
+	
+	public static Mat4f lookAtView(Vec3f pos, Vec3f right, Vec3f up, Vec3f direction){
+		Mat4f view = new Mat4f();
+		
+		view.m[0][0] = right.getX();
+		view.m[0][1] = right.getY();
+		view.m[0][2] = right.getZ();
+		view.m[1][0] = up.getX();
+		view.m[1][1] = up.getY();
+		view.m[1][2] = up.getZ();
+		view.m[2][0] = direction.getX();
+		view.m[2][1] = direction.getY();
+		view.m[2][2] = direction.getZ();
+		view.m[0][3] = -pos.dot(right);
+		view.m[1][3] = -pos.dot(up);
+		view.m[2][3] = -pos.dot(direction);
+		view.m[3][3] = 1;
+		
+		return view;
+	}
+	
 }

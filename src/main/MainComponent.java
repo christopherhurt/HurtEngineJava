@@ -1,5 +1,6 @@
 package main;
 
+import cameras.Cam;
 import display.Disp;
 import maths.Mat4f;
 import maths.Vec3f;
@@ -49,18 +50,19 @@ public class MainComponent {
 		Mesh mesh = new Mesh(indices, vertices, texCoords);
 		Material material = new Material("brick");
 		Model model = new Model(mesh, material);
-		GameObject object = new GameObject(model, new Vec3f(0, 0, -3), new Vec3f(0, 0, 0), new Vec3f(1, 1, 1));
+		GameObject object = new GameObject(model, new Vec3f(0, 0, 0), new Vec3f(0, 0, 0), new Vec3f(1, 1, 1));
 		GameObject object2 = new GameObject(model, new Vec3f(-1, 1, -3), new Vec3f(0, 0, 0), new Vec3f(0.5f, 0.5f, 0.5f));
 		Mat4f projection = Mat4f.perspectiveProjection(0.001f, 1000, 70);
 //		Mat4f projection = Mat4f.orthographicProjection(0.001f, 1000, -5, 5, -5, 5);
-		Handler<GameObject> handler = new Handler<>(new GameObjectShader(projection));
+		Cam cam = new Cam();
+		Handler<GameObject> handler = new Handler<>(new GameObjectShader(projection, cam));
 		handler.add(object);
 		handler.add(object2);
 		float rotX = 0;
 		
 		while(Disp.isOpen()){
 			Disp.clear();
-			object.setRot(new Vec3f(0, rotX++, 0));
+//			object.setRot(new Vec3f(0, rotX++, 0));
 			object2.setRot(new Vec3f(0, 0, rotX++));
 			handler.render();
 			Disp.update();

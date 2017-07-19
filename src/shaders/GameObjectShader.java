@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import cameras.Cam;
 import maths.Mat4f;
 import objects.GameObject;
 import renderEngine.Material;
@@ -17,16 +18,25 @@ public class GameObjectShader extends Shader<GameObject> {
 	public static final String VERTEX_SHADER_FILE = "src/shaderPrograms/gameObjectVS.glsl";
 	public static final String FRAGMENT_SHADER_FILE = "src/shaderPrograms/gameObjectFS.glsl";
 	
+	private Cam cam;
+	
 	private int textureLoc;
 	private int transformLoc;
+	private int viewLoc;
 	private int projectionLoc;
 	
-	public GameObjectShader(Mat4f projection) {
+	
+	public GameObjectShader(Mat4f projection, Cam cam) {
 		super(VERTEX_SHADER_FILE, FRAGMENT_SHADER_FILE);
+		this.cam = cam;
 		textureLoc = getUniformLocation("tex");
 		transformLoc = getUniformLocation("transform");
+		viewLoc = getUniformLocation("view");
 		projectionLoc = getUniformLocation("projection");
+		
+		// TODO: move?
 		start();
+		loadInt(textureLoc, 0);
 		loadMat4f(projectionLoc, projection);
 		stop();
 	}
@@ -39,7 +49,7 @@ public class GameObjectShader extends Shader<GameObject> {
 	
 	@Override
 	public void prepareShaderRender(){
-		loadInt(textureLoc, 0);
+		loadMat4f(viewLoc, cam.view());
 	}
 
 	@Override
