@@ -12,12 +12,22 @@ public class Vec3f {
 		this.z = z;
 	}
 	
+	public Vec3f(Vec3f vec){
+		this.x = vec.x;
+		this.y = vec.y;
+		this.z = vec.z;
+	}
+	
 	public Vec3f scale(float c){
 		x = c * x;
 		y = c * y;
 		z = c * z;
 		
 		return this;
+	}
+	
+	public Vec3f scaled(float c){
+		return new Vec3f(c * x, c * y, c * z);
 	}
 	
 	public float length(){
@@ -29,6 +39,13 @@ public class Vec3f {
 		x *= length;
 		y *= length;
 		z *= length;
+	}
+	
+	public void setDirection(Vec3f direction){
+		Vec3f normalizedDir = direction.normalized();
+		float currLength = length();
+		set(normalizedDir);
+		setLength(currLength);
 	}
 	
 	// TODO: return this for each???
@@ -60,6 +77,12 @@ public class Vec3f {
 		return this.x * vec.x + this.y * vec.y + this.z * vec.z;
 	}
 	
+	public float getAngleBetween(Vec3f vec){
+		float dot = this.dot(vec);
+		float lengths = this.length() * vec.length();
+		return (float) Math.acos(dot / lengths);
+	}
+	
 	public Vec3f cross(Vec3f vec){
 		float crossX = 	 this.y * vec.z - vec.y * this.z;
 		float crossY = -(this.x * vec.z - vec.x * this.z);
@@ -84,6 +107,12 @@ public class Vec3f {
 		x = w.getX();
 		y = w.getY();
 		z = w.getZ();
+	}
+	
+	public void set(Vec3f vec){
+		this.x = vec.x;
+		this.y = vec.y;
+		this.z = vec.z;
 	}
 
 	public float getX() {
