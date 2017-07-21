@@ -1,8 +1,8 @@
 package main;
 
-import cameras.Cam;
+import cameras.Camera;
+import cameras.FPSCam;
 import display.Disp;
-import maths.Mat4f;
 import maths.Vec3f;
 import objects.GameObject;
 import renderEngine.Handler;
@@ -52,13 +52,23 @@ public class MainComponent {
 		Model model = new Model(mesh, material);
 		GameObject object = new GameObject(model, new Vec3f(0, 0, 0), new Vec3f(0, 0, 0), new Vec3f(1, 1, 1));
 		GameObject object2 = new GameObject(model, new Vec3f(-1, 1, -3), new Vec3f(0, 0, 0), new Vec3f(0.5f, 0.5f, 0.5f));
-		Mat4f projection = Mat4f.perspectiveProjection(0.001f, 1000, 70);
-//		Mat4f projection = Mat4f.orthographicProjection(0.001f, 1000, -5, 5, -5, 5);
-		Cam cam = new Cam();
-		Handler<GameObject> handler = new Handler<>(new GameObjectShader(projection, cam));
+//		Camera cam = new LookAtCam(new Vec3f(0, 0, 0), 3, 45, 0, 70, 0.001f, 1000);
+		Camera cam = new FPSCam(new Vec3f(0, 0, 0), new Vec3f(0, 0, -1), 70, 0.001f, 1000);
+		Handler<GameObject> handler = new Handler<>(new GameObjectShader(cam));
 		handler.add(object);
 		handler.add(object2);
 		float rotX = 0;
+		
+		int numBlocks = 300;
+		float range = 50;
+		float maxSize = 3;
+		for(int i = 0; i < numBlocks; i++){
+			Vec3f pos = new Vec3f((float) Math.random() * range - range / 2, (float) Math.random() * range - range / 2, (float) Math.random() * range - range / 2);
+			Vec3f rot = new Vec3f((float) Math.random() * 360, (float) Math.random() * 360, (float) Math.random() * 360);
+			float size = (float) Math.random() * maxSize;
+			Vec3f scale = new Vec3f(size, size, size);
+			handler.add(new GameObject(model, pos, rot, scale));
+		}
 		
 		while(Disp.isOpen()){
 			Disp.clear();

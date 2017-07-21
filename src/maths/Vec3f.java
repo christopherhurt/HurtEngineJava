@@ -12,19 +12,42 @@ public class Vec3f {
 		this.z = z;
 	}
 	
-	public Vec3f scaled(float c){
-		return new Vec3f(c * x, c * y, c * z);
+	public Vec3f scale(float c){
+		x = c * x;
+		y = c * y;
+		z = c * z;
+		
+		return this;
 	}
 	
 	public float length(){
 		return (float) Math.sqrt(x * x + y * y + z * z);
 	}
 	
-	public Vec3f normalized(){
-		float length = length();
-		return new Vec3f(x / length, y / length, z / length);
+	public void setLength(float length){
+		normalize();
+		x *= length;
+		y *= length;
+		z *= length;
 	}
 	
+	// TODO: return this for each???
+	public void normalize(){
+		float length = length();
+		
+		x = x / length;
+		y = y / length;
+		z = z / length;
+	}
+	
+	// TODO: two normalize methods??
+	public Vec3f normalized(){
+		Vec3f normalizedVector = new Vec3f(x, y, z);
+		normalizedVector.normalize();
+		return normalizedVector;
+	}
+	
+	// TODO: add TO here or create new Vec3f????
 	public Vec3f add(Vec3f vec){
 		return new Vec3f(this.x + vec.x, this.y + vec.y, this.z + vec.z);
 	}
@@ -43,6 +66,24 @@ public class Vec3f {
 		float crossZ =   this.x * vec.y - vec.x * this.y;
 		
 		return new Vec3f(crossX, crossY, crossZ);
+	}
+	
+	public void rotate(float theta, Vec3f axis){
+		float sinHalfAngle = (float) Math.sin(Math.toRadians(theta / 2));
+		float cosHalfAngle = (float) Math.cos(Math.toRadians(theta / 2));
+		
+		float rX = axis.getX() * sinHalfAngle;
+		float rY = axis.getY() * sinHalfAngle;
+		float rZ = axis.getZ() * sinHalfAngle;
+		float rW = cosHalfAngle;
+		
+		Quaternion rotation = new Quaternion(rX, rY, rZ, rW);
+		Quaternion conjugate = rotation.conjugate();
+		Quaternion w = rotation.mul(this).mul(conjugate);
+		
+		x = w.getX();
+		y = w.getY();
+		z = w.getZ();
 	}
 
 	public float getX() {
@@ -69,4 +110,35 @@ public class Vec3f {
 		this.z = z;
 	}
 	
+	private class Quaternion extends Vec4f {
+
+		public Quaternion(float x, float y, float z, float w) {
+			super(x, y, z, w);
+		}
+		
+		public Quaternion mul(Quaternion quat){
+			float qX =  this.getX() * quat.getW() + this.getY() * quat.getZ() - this.getZ() * quat.getY() + this.getW() * quat.getX();
+			float qY = -this.getX() * quat.getZ() + this.getY() * quat.getW() + this.getZ() * quat.getX() + this.getW() * quat.getY();
+			float qZ = 	this.getX() * quat.getY() - this.getY() * quat.getX() + this.getZ() * quat.getW() + this.getW() * quat.getZ();
+			float qW = -this.getX() * quat.getX() - this.getY() * quat.getY() - this.getZ() * quat.getZ() + this.getW() * quat.getW();
+			
+			return new Quaternion(qX, qY, qZ, qW);
+		}
+
+		public Quaternion mul(Vec3f vec){
+			float qW = -this.getX() * vec.getX() - this.getY() * vec.getY() - this.getZ() * vec.getZ();
+			float qX = this.getW() * vec.getX() + this.getY() * vec.getZ() - this.getZ() * vec.getY();
+			float qY = this.getW() * vec.getY() + this.getZ() * vec.getX() - this.getX() * vec.getZ();
+			float qZ = this.getW() * vec.getZ() + this.getX() * vec.getY() - this.getY() * vec.getX();
+			
+			return new Quaternion(qX, qY, qZ, qW);
+		}
+
+		public Quaternion conjugate(){
+			return new Quaternion(-this.getX(), -this.getY(), -this.getZ(), this.getW());
+		}
+
+	}
+	
 }
+
