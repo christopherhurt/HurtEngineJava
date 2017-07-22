@@ -27,10 +27,16 @@ public class Handler<T extends RenderObject> {
 		for(Model model : objects.keySet()){
 			shader.prepareModelRender(model);
 			List<T> list = objects.get(model);
+			Mesh mesh = model.getMesh();
 			
 			for(T object : list){
 				shader.prepareObjectRender(object);
-				GL11.glDrawElements(GL11.GL_TRIANGLES, object.getModel().getMesh().getIndices().length, GL11.GL_UNSIGNED_INT, 0);
+				
+				if(mesh.getDrawStrips()){
+					GL11.glDrawElements(GL11.GL_TRIANGLE_STRIP, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
+				}else{
+					GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
+				}	
 			}
 			
 			shader.finishModelRender();

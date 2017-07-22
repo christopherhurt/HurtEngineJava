@@ -15,26 +15,38 @@ public class Mesh {
 	private int[] indices;
 	private float[] vertices;
 	private float[] texCoords;
+	private float[] normals;
+	private float[] tangents;
 	
 	private int vao;
 	private int indexVbo;
 	private int vertexVbo;
 	private int texCoordVbo;
+	private int normalsVbo;
+	private int tangentsVbo;
 	
-	public Mesh(int[] indices, float[] vertices, float[] texCoords) {
+	private boolean drawStrips;
+	
+	public Mesh(int[] indices, float[] vertices, float[] texCoords, float[] normals, float[] tangents) { // TODO: if normals/tangents are null, just disable lighting?
 		this.indices = indices;
 		this.vertices = vertices;
 		this.texCoords = texCoords;
+		this.normals = normals;
+		this.tangents = tangents;
+		
+		drawStrips = false;
 		
 		vao = GL30.glGenVertexArrays();
 		indexVbo = GL15.glGenBuffers();
 		vertexVbo = GL15.glGenBuffers();
 		texCoordVbo = GL15.glGenBuffers();
+		normalsVbo = GL15.glGenBuffers();
+		tangentsVbo = GL15.glGenBuffers();
 		
 		loadAllData();
 	}
 	
-	private void loadAllData(){
+	private void loadAllData(){ // TODO: load normals and tangents here
 		GL30.glBindVertexArray(vao);
 		
 		FloatBuffer vertices = Utilities.arrayToBuffer(this.vertices);
@@ -74,6 +86,14 @@ public class Mesh {
 		return texCoords;
 	}
 	
+	public float[] getNormals(){
+		return normals;
+	}
+	
+	public float[] getTangents(){
+		return tangents;
+	}
+	
 	public int getVao(){
 		return vao;
 	}
@@ -88,6 +108,22 @@ public class Mesh {
 	
 	public int getTexCoordVbo(){
 		return texCoordVbo;
+	}
+	
+	public int getNormalsVbo(){
+		return normalsVbo;
+	}
+	
+	public int getTangentsVbo(){
+		return tangentsVbo;
+	}
+	
+	public void setDrawStrips(boolean drawStrips){
+		this.drawStrips = drawStrips;
+	}
+	
+	public boolean getDrawStrips(){
+		return drawStrips;
 	}
 	
 }

@@ -9,15 +9,13 @@ import maths.Vec3f;
 
 public class LookAtCam extends Camera {
 	
-	private static final Vec3f Y_AXIS = new Vec3f(0, 1, 0);
-	
 	private Vec3f viewPos;
 	private Vec3f direction;
 	private Vec3f up;
 	private float distance;
 	
 	private Vec3f playerDirection;
-	private boolean syncedWithPlayer; // TODO: figure out what to do with this
+	private boolean syncedWithPlayer;
 	
 	public LookAtCam(Vec3f viewPos, float distance, float pitch, float yaw, float fov, float nearPlane, float farPlane){
 		super(fov, nearPlane, farPlane);
@@ -29,7 +27,7 @@ public class LookAtCam extends Camera {
 		pitch(pitch);
 		rotateCam(yaw);
 		movePlayerToCam();
-		syncedWithPlayer = false;
+		syncedWithPlayer = true;
 	}
 	
 	@Override
@@ -37,28 +35,6 @@ public class LookAtCam extends Camera {
 		Vec3f right = up.cross(direction);
 		right.normalize();
 		return Mat4f.view(viewPos.add(direction.scaled(distance)), right, up, direction);
-	}
-	
-	private void rotateX(Vec3f vec, Vec3f up, float theta){
-		Vec3f right = Y_AXIS.cross(vec);
-		right.normalize();
-		
-		vec.rotate(-theta, right);
-		vec.normalize();
-		
-		up.set(vec.cross(right));
-		up.normalize();
-	}
-	
-	private void rotateY(Vec3f vec, Vec3f up, float theta){
-		Vec3f right = vec.cross(Y_AXIS);
-		right.normalize();
-		
-		vec.rotate(-theta, Y_AXIS);
-		vec.normalize();
-		
-		up.set(right.cross(vec));
-		up.normalize();
 	}
 	
 	public void moveForward(float distance){
@@ -79,9 +55,7 @@ public class LookAtCam extends Camera {
 	}
 	
 	public void rotateCam(float angle){
-		if(syncedWithPlayer){
-			rotatePlayer(angle);
-		}else{
+		if(!syncedWithPlayer){
 			Vec3f temp = new Vec3f(playerDirection);
 			movePlayerToCam();
 			rotatePlayer(angle);

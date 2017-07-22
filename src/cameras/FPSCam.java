@@ -8,8 +8,6 @@ import maths.Vec3f;
 
 public class FPSCam extends Camera {
 	
-	private static final Vec3f Y_AXIS = new Vec3f(0, 1, 0);
-	
 	private Vec3f pos;
 	private Vec3f direction;
 	private Vec3f up;
@@ -32,28 +30,6 @@ public class FPSCam extends Camera {
 		return Mat4f.view(pos, right, up, direction);
 	}
 	
-	private void rotateX(float theta){
-		Vec3f horizAxis = Y_AXIS.cross(direction);
-		horizAxis.normalize();
-		
-		direction.rotate(theta, horizAxis);
-		direction.normalize();
-		
-		up = direction.cross(horizAxis);
-		up.normalize();
-	}
-	
-	private void rotateY(float theta){
-		Vec3f horizAxis = direction.cross(Y_AXIS);
-		horizAxis.normalize();
-		
-		direction.rotate(theta, Y_AXIS);
-		direction.normalize();
-		
-		up = horizAxis.cross(direction);
-		up.normalize();
-	}
-	
 	public void moveForward(float distance){
 		Vec3f forward = direction.normalized().scale(-1);
 		pos = pos.add(forward.scale(distance));
@@ -65,11 +41,11 @@ public class FPSCam extends Camera {
 	}
 	
 	public void pitch(float angle){
-		rotateX(angle);
+		rotateX(direction, up, -angle);
 	}
 	
 	public void yaw(float angle){
-		rotateY(-angle);
+		rotateY(direction, up, angle);
 	}
 	
 	public void zoom(float amount){
