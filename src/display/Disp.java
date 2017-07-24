@@ -9,10 +9,10 @@ import maths.Vec3f;
 
 public class Disp {
 	
-	public static final int WIDTH = 1280, HEIGHT = 720, FPS_CAP = 120;
+	public static final int WIDTH = 1280 * 2, HEIGHT = 720 * 2, FPS_CAP = 120;
 	public static final String TITLE = "Hurt Game Engine";
 	
-	public static void create(Vec3f color){
+	public static void create(Vec3f color){		
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.setTitle(TITLE);
