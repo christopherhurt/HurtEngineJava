@@ -17,7 +17,7 @@ public class Material {
 	
 	public Material(String textureFile){
 		texture = Resources.loadTexture(textureFile);
-		normalMap = 0;
+		normalMap = -1;
 		ambient = 1;
 		diffuse = 0;
 		specular = 0;

@@ -6,13 +6,13 @@ import org.lwjgl.input.Mouse;
 import maths.Mat4f;
 import maths.Vec3f;
 
-public class FPSCam extends Camera {
+public class FirstPersonCam extends Camera {
 	
 	private Vec3f pos;
 	private Vec3f direction;
 	private Vec3f up;
 	
-	public FPSCam(Vec3f pos, Vec3f viewDir, float fov, float nearPlane, float farPlane){
+	public FirstPersonCam(Vec3f pos, Vec3f viewDir, float fov, float nearPlane, float farPlane){
 		super(fov, nearPlane, farPlane);
 		this.pos = pos;
 		direction = viewDir;
@@ -50,6 +50,11 @@ public class FPSCam extends Camera {
 	
 	public void zoom(float amount){
 		fov -= amount;
+	}
+	
+	@Override
+	public Vec3f getLocation(){
+		return pos;
 	}
 	
 	// TODO: TEMP?

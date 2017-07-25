@@ -51,6 +51,7 @@ public abstract class Camera {
 	}
 	
 	public abstract Mat4f view();
+	public abstract Vec3f getLocation();
 	public abstract void update(); // TODO: temp?
 	
 }

@@ -7,7 +7,15 @@ import maths.Mat4f;
 import maths.Vec2f;
 import maths.Vec3f;
 
-public class LookAtCam extends Camera {
+public class ThirdPersonCam extends Camera {
+	
+	private static final float DEFAULT_CAM_SPEED = 0.07f;
+	private static final float DEFAULT_ROTATION_SPEED = 1;
+	private static final float DEFAULT_ZOOM_SPEED = 3;
+	
+	private float moveSpeed;
+	private float rotationSpeed;
+	private float zoomSpeed;
 	
 	private Vec3f viewPos;
 	private Vec3f direction;
@@ -17,10 +25,15 @@ public class LookAtCam extends Camera {
 	private Vec3f playerDirection;
 	private boolean syncedWithPlayer;
 	
-	public LookAtCam(Vec3f viewPos, float distance, float pitch, float yaw, float fov, float nearPlane, float farPlane){
+	public ThirdPersonCam(Vec3f viewPos, float distance, float pitch, float yaw, float fov, float nearPlane, float farPlane){
 		super(fov, nearPlane, farPlane);
 		this.viewPos = viewPos;
 		this.distance = distance;
+		
+		moveSpeed = DEFAULT_CAM_SPEED;
+		rotationSpeed = DEFAULT_ROTATION_SPEED;
+		zoomSpeed = DEFAULT_ZOOM_SPEED;
+		
 		direction = new Vec3f(0, 0, 1);
 		up = new Vec3f(0, 1, 0);
 		playerDirection = new Vec3f(direction);
@@ -34,7 +47,7 @@ public class LookAtCam extends Camera {
 	public Mat4f view() {
 		Vec3f right = up.cross(direction);
 		right.normalize();
-		return Mat4f.view(viewPos.add(direction.scaled(distance)), right, up, direction);
+		return Mat4f.view(getLocation(), right, up, direction);
 	}
 	
 	public void moveForward(float distance){
@@ -95,38 +108,51 @@ public class LookAtCam extends Camera {
 		return playerDirection;
 	}
 	
+	@Override
+	public Vec3f getLocation(){
+		return viewPos.add(direction.scaled(distance));
+	}
+	
+	public void setMoveSpeed(float moveSpeed){
+		this.moveSpeed = moveSpeed;
+	}
+	
+	public void setRotationSpeed(float rotationSpeed){
+		this.rotationSpeed = rotationSpeed;
+	}
+	
+	public void setZoomSpeed(float zoomSpeed){
+		this.zoomSpeed = zoomSpeed;
+	}
+	
 	// TODO: TEMP?
 	@Override
 	public void update(){
-		float speed = 0.07f;
-		float rotation = 1f;
-		float zoom = 3;
-		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W))
-			moveForward(speed);
+			moveForward(moveSpeed);
 		if(Keyboard.isKeyDown(Keyboard.KEY_S))
-			moveForward(-speed);
+			moveForward(-moveSpeed);
 		if(Keyboard.isKeyDown(Keyboard.KEY_D))
-			moveRight(speed);
+			moveRight(moveSpeed);
 		if(Keyboard.isKeyDown(Keyboard.KEY_A))
-			moveRight(-speed);
+			moveRight(-moveSpeed);
 		if(Keyboard.isKeyDown(Keyboard.KEY_E))
-			rotatePlayer(rotation);
+			rotatePlayer(rotationSpeed);
 		if(Keyboard.isKeyDown(Keyboard.KEY_Q))
-			rotatePlayer(-rotation);
+			rotatePlayer(-rotationSpeed);
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT))
-			rotateCam(rotation);
+			rotateCam(rotationSpeed);
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT))
-			rotateCam(-rotation);
+			rotateCam(-rotationSpeed);
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP))
-			pitch(rotation);
+			pitch(rotationSpeed);
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN))
-			pitch(-rotation);
+			pitch(-rotationSpeed);
 		int wheel = Mouse.getDWheel();
 		if(wheel > 0)
-			zoomIn(zoom);
+			zoomIn(zoomSpeed);
 		if(wheel < 0)
-			zoomIn(-zoom);
+			zoomIn(-zoomSpeed);
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
 			syncWithPlayer(!syncedWithPlayer);
 			System.out.println(syncedWithPlayer);

@@ -49,15 +49,17 @@ public class Mesh {
 	private void loadAllData(){ // TODO: load normals and tangents here
 		GL30.glBindVertexArray(vao);
 		
-		FloatBuffer vertices = Utilities.arrayToBuffer(this.vertices);
 		IntBuffer indices = Utilities.arrayToBuffer(this.indices);
-		FloatBuffer texes = Utilities.arrayToBuffer(this.texCoords);
+		FloatBuffer vertices = Utilities.arrayToBuffer(this.vertices);
+		FloatBuffer texCoords = Utilities.arrayToBuffer(this.texCoords);
+		FloatBuffer normals = Utilities.arrayToBuffer(this.normals);
 		
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indexVbo);
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_STATIC_DRAW);
 		
 		loadVbo(0, vertexVbo, vertices, 3);
-		loadVbo(1, texCoordVbo, texes, 2);
+		loadVbo(1, texCoordVbo, texCoords, 2);
+		loadVbo(2, normalsVbo, normals, 3);
 		
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
