@@ -3,6 +3,7 @@ package main;
 import org.lwjgl.opengl.GL11;
 
 import cameras.Camera;
+import cameras.FirstPersonCam;
 import display.Disp;
 import maths.Vec3f;
 import meshes.Cube;
