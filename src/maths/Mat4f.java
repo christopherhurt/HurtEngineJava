@@ -29,6 +29,20 @@ public class Mat4f {
 		return product;
 	}
 	
+	public Vec4f mul(Vec4f vec){
+		float vX = vec.getX();
+		float vY = vec.getY();
+		float vZ = vec.getZ();
+		float vW = vec.getW();
+		
+		float x = m[0][0] * vX + m[0][1] * vY + m[0][2] * vZ + m[0][3] * vW;
+		float y = m[1][0] * vX + m[1][1] * vY + m[1][2] * vZ + m[1][3] * vW;
+		float z = m[2][0] * vX + m[2][1] * vY + m[2][2] * vZ + m[2][3] * vW;
+		float w = m[3][0] * vX + m[3][1] * vY + m[3][2] * vZ + m[3][3] * vW;
+		
+		return new Vec4f(x, y, z, w);
+	}
+	
 	public float value(int r, int c){
 		return m[r][c];
 	}

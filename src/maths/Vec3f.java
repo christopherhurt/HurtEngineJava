@@ -80,7 +80,7 @@ public class Vec3f {
 	public float getAngleBetween(Vec3f vec){
 		float dot = this.dot(vec);
 		float lengths = this.length() * vec.length();
-		return (float) Math.acos(dot / lengths);
+		return (float) Math.toDegrees(Math.acos(dot / lengths));
 	}
 	
 	public Vec3f cross(Vec3f vec){

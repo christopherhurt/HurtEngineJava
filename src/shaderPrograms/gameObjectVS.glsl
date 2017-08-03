@@ -18,6 +18,6 @@ void main(){
 	vec3 worldPos = (transform * vec4(pos, 1.0)).xyz;
 	gl_Position = projection * view * vec4(worldPos, 1.0);
 	passTexCoords = texCoords;
-	normal = mat3(transpose(inverse(transform))) * normalize(norm);
+	normal = normalize(mat3(transpose(inverse(transform))) * norm);
 	toCam = normalize(camLoc - worldPos);
 }

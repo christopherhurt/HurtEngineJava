@@ -18,10 +18,27 @@ public class Vec2f {
 		return this.x * vec.x + this.y * vec.y;
 	}
 	
+	public float determinant(Vec2f vec){
+		return this.x * vec.y - this.y * vec.x;
+	}
+	
+	public void normalize(){
+		float length = length();
+		
+		x = x / length;
+		y = y / length;
+	}
+	
+	public Vec2f normalized(){
+		Vec2f normalizedVector = new Vec2f(x, y);
+		normalizedVector.normalize();
+		return normalizedVector;
+	}
+	
 	public float getAngleBetween(Vec2f vec){
 		float dot = this.dot(vec);
 		float lengths = this.length() * vec.length();
-		return (float) Math.acos(dot / lengths);
+		return (float) Math.toDegrees(Math.acos(dot / lengths));
 	}
 	
 	public float getX() {

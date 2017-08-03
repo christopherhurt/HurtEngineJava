@@ -3,7 +3,7 @@ package main;
 import org.lwjgl.opengl.GL11;
 
 import cameras.Camera;
-import cameras.ThirdPersonCam;
+import cameras.FirstPersonCam;
 import display.Disp;
 import maths.Vec3f;
 import meshes.Cube;
@@ -26,12 +26,12 @@ public class MainComponent {
 		Material material = new Material("brick");
 		material.setAmbient(0.3f);
 		material.setDiffuse(0.7f);
-		material.setSpecular(0.5f, 32);
+		material.setSpecular(0.4f, 32);
 		Model model = new Model(cube, material);
 		GameObject object = new GameObject(model, new Vec3f(0, 0, 0), new Vec3f(0, 0, 0), new Vec3f(1, 1, 1));
 		GameObject object2 = new GameObject(model, new Vec3f(-1, 1, -3), new Vec3f(0, 0, 0), new Vec3f(0.5f, 0.5f, 0.5f));
-		Camera cam = new ThirdPersonCam(new Vec3f(0, 0, 0), 3, 45, 0, 70, 0.01f, 1000);
-//		Camera cam = new FPSCam(new Vec3f(0, 0, 0), new Vec3f(0, 0, -1), 70, 0.001f, 1000);
+//		Camera cam = new ThirdPersonCam(new Vec3f(0, 0, 0), 3, 45, 0, 70, 0.01f, 1000);
+		Camera cam = new FirstPersonCam(new Vec3f(0, 0, 0), new Vec3f(0, 0, -1), 70, 0.001f, 1000);
 		Handler<GameObject> handler = new Handler<>(new GameObjectShader(cam));
 		handler.add(object);
 		handler.add(object2);

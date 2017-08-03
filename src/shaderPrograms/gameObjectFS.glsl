@@ -40,7 +40,7 @@ void main(){
 		
 		// Specular
 		vec3 reflectedLight = reflect(-toLight, normal);
-		vec3 specular = specularFactor * pow(max(dot(reflectedLight, toCam), 0.0), shininess) * lightShade;
+		vec3 specular = specularFactor * max(pow(dot(reflectedLight, toCam), shininess), 0.0) * lightShade;
 		
 		finalColor = (ambient + diffuse) * texColor + specular;
 		outColor = vec4(finalColor, 1.0);
