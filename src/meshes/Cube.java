@@ -2,7 +2,7 @@ package meshes;
 
 import renderEngine.Mesh;
 
-public class Cube extends Mesh {
+public class Cube extends Mesh { // TODO: make package-only class?
 	
 	private static final int[] indices = {
 		 0,  1,  2,  2,  3,  0,

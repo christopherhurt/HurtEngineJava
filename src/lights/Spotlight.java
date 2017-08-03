@@ -6,13 +6,14 @@ public class Spotlight extends Light {
 	
 	private Vec3f position;
 	private Vec3f direction;
-	private float cutoffAngle; // TODO: change to store cosine of cutoff angle
+	private float cosineCutoff;
 	
-	public Spotlight(Vec3f position, Vec3f direction, float cutoffAngle, Vec3f color, float intensity) {
-		super(color, intensity);
+	public Spotlight(Vec3f position, Vec3f direction, float cutoffAngle, Vec3f color, float intensity, boolean isOn) {
+		super(color, intensity, isOn);
 		this.position = position;
 		this.direction = direction;
-		this.cutoffAngle = cutoffAngle;
+		setCutoffAngle(cutoffAngle);
+		LightController.addLight(this);
 	}
 	
 	public Vec3f getPosition() {
@@ -32,11 +33,11 @@ public class Spotlight extends Light {
 	}
 	
 	public float getCutoffAngle() {
-		return cutoffAngle;
+		return (float) Math.toDegrees(Math.acos(cosineCutoff));
 	}
 	
 	public void setCutoffAngle(float cutoffAngle) {
-		this.cutoffAngle = cutoffAngle;
+		this.cosineCutoff = (float) Math.cos(Math.toRadians(cutoffAngle));
 	}
 	
 }

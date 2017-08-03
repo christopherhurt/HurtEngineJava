@@ -4,8 +4,7 @@ import renderEngine.Mesh;
 
 public class Meshes {
 	
-	public static final Mesh QUAD = null;
-	public static final Mesh CUBE = null;
-	public static final Mesh SPHERE = null;
+	public static final Mesh QUAD = new Quad();
+	public static final Mesh CUBE = new Cube();
 	
 }

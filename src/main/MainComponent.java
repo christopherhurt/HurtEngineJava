@@ -6,7 +6,7 @@ import cameras.Camera;
 import cameras.FirstPersonCam;
 import display.Disp;
 import maths.Vec3f;
-import meshes.Cube;
+import meshes.Meshes;
 import objects.GameObject;
 import renderEngine.Handler;
 import renderEngine.Material;
@@ -22,7 +22,7 @@ public class MainComponent {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glFrontFace(GL11.GL_CW);
 		GL11.glCullFace(GL11.GL_BACK);
-		Mesh cube = new Cube();
+		Mesh cube = Meshes.CUBE;
 		Material material = new Material("brick");
 		material.setAmbient(0.3f);
 		material.setDiffuse(0.7f);
@@ -32,7 +32,7 @@ public class MainComponent {
 		GameObject object2 = new GameObject(model, new Vec3f(-1, 1, -3), new Vec3f(0, 0, 0), new Vec3f(0.5f, 0.5f, 0.5f));
 //		Camera cam = new ThirdPersonCam(new Vec3f(0, 0, 0), 3, 45, 0, 70, 0.01f, 1000);
 		Camera cam = new FirstPersonCam(new Vec3f(0, 0, 0), new Vec3f(0, 0, -1), 70, 0.001f, 1000);
-		Handler<GameObject> handler = new Handler<>(new GameObjectShader(cam));
+		Handler<GameObject> handler = new Handler<>(new GameObjectShader(cam, 4));
 		handler.add(object);
 		handler.add(object2);
 		float rotX = 0;

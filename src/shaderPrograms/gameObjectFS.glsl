@@ -1,25 +1,63 @@
 #version 400 core
 
+const int ARRAY_SIZE = 10000;
+
+in vec3 fragPos;
 in vec2 passTexCoords;
 in vec3 normal;
-in vec3 toLight;
-in vec3 toCam;
+
+flat in camPos;
 
 out vec4 outColor;
 
-uniform sampler2D tex;
+uniform Material material;
+uniform DirectionalLight[ARRAY_SIZE] dLights;
+uniform int numDLights;
+uniform PointLight[ARRAY_SIZE] pLights;
+uniform int numPLights;
+uniform Spotlight[ARRAY_SIZE] sLights;
+uniform int numSLights;
 
-uniform float usesLighting;
-uniform float usesNormalMap;
+struct Material {
+	float usesLighting;
+	float usesLightMap;
+	float usesNormalMap;
+	float usesDepthMap;
+	
+	float ambientFactor;
+	float diffuseFactor;
+	float specularFactor;
+	int shininess;
+	
+	sampler2D diffuseMap;
+	sampler2D lightMap;
+	sampler2D normalMap;
+	sampler2D depthMap;
+};
 
-uniform float ambientFactor;
-uniform float diffuseFactor;
-uniform float specularFactor;
-uniform int shininess;
+struct Light {
+	vec3 color;
+	float intensity;
+	float isOn;
+};
 
-uniform vec3 lightColor;
-uniform float lightIntensity;
-uniform vec3 lightDir;
+struct DirectionalLight {
+	Light light;
+	vec3 direction;
+}
+
+struct PointLight {
+	Light light;
+	vec3 position;
+	vec2 attenuation;
+}
+
+struct Spotlight {
+	Light light;
+	vec3 position;
+	vec3 direction;
+	float cosineCutoff;
+}
 
 void main(){
 	// Texture

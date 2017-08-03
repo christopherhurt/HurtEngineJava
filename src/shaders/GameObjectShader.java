@@ -21,50 +21,38 @@ public class GameObjectShader extends Shader<GameObject> {
 	
 	private Camera cam;
 	
-	private DirectionalLight light; // TODO: temp light
-	
-	private int textureLoc;
 	private int transformLoc;
 	private int viewLoc;
 	private int projectionLoc;
 	
-	// TODO: temp uniform locations for lighting testing
-	private int lightDirLoc;
 	private int camLocLoc;
+	
 	private int usesLightingLoc;
+	private int usesLightMapLoc;
+	private int usesNormalMapLoc;
+	private int usesDepthMapLoc;
+	
 	private int ambientFactorLoc;
 	private int diffuseFactorLoc;
 	private int specularFactorLoc;
 	private int shininessLoc;
-	private int lightColorLoc;
-	private int lightIntensityLoc;
 	
-	public GameObjectShader(Camera cam) {
+	private int diffuseMapLoc;
+	private int lightMapLoc;
+	private int normalMapLoc;
+	private int depthMapLoc;
+	
+	public GameObjectShader(Camera cam, int maxLights) { // TODO: move maxLights parameter?
 		super(VERTEX_SHADER_FILE, FRAGMENT_SHADER_FILE);
 		this.cam = cam;
-		light = new DirectionalLight(new Vec3f(0, 0, -1), new Vec3f(1, 1, 1), 1);
 		
-		textureLoc = getUniformLocation("tex");
 		transformLoc = getUniformLocation("transform");
 		viewLoc = getUniformLocation("view");
 		projectionLoc = getUniformLocation("projection");
 		
-		lightDirLoc = getUniformLocation("lightDir");
-		camLocLoc = getUniformLocation("camLoc");
-		usesLightingLoc = getUniformLocation("usesLighting");
-		ambientFactorLoc = getUniformLocation("ambientFactor");
-		diffuseFactorLoc = getUniformLocation("diffuseFactor");
-		specularFactorLoc = getUniformLocation("specularFactor");
-		shininessLoc = getUniformLocation("shininess");
-		lightColorLoc = getUniformLocation("lightColor");
-		lightIntensityLoc = getUniformLocation("lightIntensity");
-		
-		start();
-		loadInt(textureLoc, 0);
-		loadVec3f(lightDirLoc, light.getDirection());
-		loadVec3f(lightColorLoc, light.getColor());
-		loadFloat(lightIntensityLoc, light.getIntensity());
-		stop();
+//		start();
+//		loadInt(textureLoc, 0);
+//		stop();
 	}
 
 	@Override

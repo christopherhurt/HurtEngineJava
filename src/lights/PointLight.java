@@ -6,12 +6,13 @@ import maths.Vec3f;
 public class PointLight extends Light {
 	
 	private Vec3f position;
-	private Vec2f attenuation;
+	private Vec2f attenuation; // TODO: change to standardized float value?
 	
-	public PointLight(Vec3f position, Vec2f attenuation, Vec3f color, float intensity) {
-		super(color, intensity);
+	public PointLight(Vec3f position, Vec2f attenuation, Vec3f color, float intensity, boolean isOn) {
+		super(color, intensity, isOn);
 		this.position = position;
 		this.attenuation = attenuation;
+		LightController.addLight(this);
 	}
 	
 	public Vec3f getPosition(){
