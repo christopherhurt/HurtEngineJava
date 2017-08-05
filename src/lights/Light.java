@@ -2,7 +2,7 @@ package lights;
 
 import maths.Vec3f;
 
-public abstract class Light { // TODO: add controller for on/off
+public abstract class Light {
 	
 	private Vec3f color;
 	private float intensity;

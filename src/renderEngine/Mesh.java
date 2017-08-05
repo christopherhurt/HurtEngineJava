@@ -27,7 +27,7 @@ public class Mesh {
 	
 	private boolean drawStrips;
 	
-	public Mesh(int[] indices, float[] vertices, float[] texCoords, float[] normals, float[] tangents) { // TODO: if normals/tangents are null, just disable lighting?
+	public Mesh(int[] indices, float[] vertices, float[] texCoords, float[] normals, float[] tangents){
 		this.indices = indices;
 		this.vertices = vertices;
 		this.texCoords = texCoords;
@@ -46,13 +46,14 @@ public class Mesh {
 		loadAllData();
 	}
 	
-	private void loadAllData(){ // TODO: load normals and tangents here
+	private void loadAllData(){
 		GL30.glBindVertexArray(vao);
 		
 		IntBuffer indices = Utilities.arrayToBuffer(this.indices);
 		FloatBuffer vertices = Utilities.arrayToBuffer(this.vertices);
 		FloatBuffer texCoords = Utilities.arrayToBuffer(this.texCoords);
 		FloatBuffer normals = Utilities.arrayToBuffer(this.normals);
+		FloatBuffer tangents = Utilities.arrayToBuffer(this.tangents);
 		
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, indexVbo);
 		GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indices, GL15.GL_STATIC_DRAW);
@@ -60,6 +61,7 @@ public class Mesh {
 		loadVbo(0, vertexVbo, vertices, 3);
 		loadVbo(1, texCoordVbo, texCoords, 2);
 		loadVbo(2, normalsVbo, normals, 3);
+		loadVbo(3, tangentsVbo, tangents, 3);
 		
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -73,7 +75,12 @@ public class Mesh {
 	}
 	
 	public void delete(){
-		// TODO
+		GL15.glDeleteBuffers(indexVbo);
+		GL15.glDeleteBuffers(vertexVbo);
+		GL15.glDeleteBuffers(texCoordVbo);
+		GL15.glDeleteBuffers(normalsVbo);
+		GL15.glDeleteBuffers(tangentsVbo);
+		GL30.glDeleteVertexArrays(vao);
 	}
 	
 	public int[] getIndices() {

@@ -10,6 +10,11 @@ public class Model {
 		this.material = material;
 	}
 	
+	public void delete(){
+		mesh.delete();
+		material.delete();
+	}
+	
 	public Mesh getMesh() {
 		return mesh;
 	}

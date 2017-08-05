@@ -32,7 +32,8 @@ public class MainComponent {
 		GameObject object2 = new GameObject(model, new Vec3f(-1, 1, -3), new Vec3f(0, 0, 0), new Vec3f(0.5f, 0.5f, 0.5f));
 //		Camera cam = new ThirdPersonCam(new Vec3f(0, 0, 0), 3, 45, 0, 70, 0.01f, 1000);
 		Camera cam = new FirstPersonCam(new Vec3f(0, 0, 0), new Vec3f(0, 0, -1), 70, 0.001f, 1000);
-		Handler<GameObject> handler = new Handler<>(new GameObjectShader(cam, 4));
+		GameObjectShader shader = new GameObjectShader(cam);
+		Handler<GameObject> handler = new Handler<>(shader);
 		handler.add(object);
 		handler.add(object2);
 		float rotX = 0;
@@ -58,6 +59,7 @@ public class MainComponent {
 			System.gc(); // TODO: find fix to buffer garbage collection?
 		}
 		
+		handler.deleteAll();
 		Disp.close();
 	}
 	

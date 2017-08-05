@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import objects.RenderObject;
 import shaders.Shader;
+import utilities.HurtEngineException;
 
 public class Handler<T extends RenderObject> {
 	
@@ -59,11 +60,21 @@ public class Handler<T extends RenderObject> {
 	}
 	
 	public void remove(T object){
-		// TODO
+		Model model = object.getModel();
+		List<T> list = objects.get(model);
+		
+		if(list != null && list.contains(object)){
+			list.remove(object);
+		}else{
+			throw new HurtEngineException("Tried to remove a GameObejct that was never added to the handler");
+		}
 	}
 	
-	public void delete(){
-		// TODO
+	public void deleteAll(){
+		for(Model model : objects.keySet()){
+			model.delete();
+		}
+		shader.delete();
 	}
 	
 }

@@ -42,7 +42,7 @@ public class GameObjectShader extends Shader<GameObject> {
 	private int normalMapLoc;
 	private int depthMapLoc;
 	
-	public GameObjectShader(Camera cam, int maxLights) { // TODO: move maxLights parameter?
+	public GameObjectShader(Camera cam){
 		super(VERTEX_SHADER_FILE, FRAGMENT_SHADER_FILE);
 		this.cam = cam;
 		
@@ -60,6 +60,7 @@ public class GameObjectShader extends Shader<GameObject> {
 		bindAttribute(0, "pos");
 		bindAttribute(1, "texCoords");
 		bindAttribute(2, "norm");
+		bindAttribute(3, "tang");
 	}
 	
 	@Override
@@ -81,7 +82,9 @@ public class GameObjectShader extends Shader<GameObject> {
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
 		GL20.glEnableVertexAttribArray(2);
+		GL20.glEnableVertexAttribArray(3);
 		
+		// TODO: update
 		loadBoolean(usesLightingLoc, material.usesLighting());
 		loadFloat(ambientFactorLoc, material.getAmbient());
 		loadFloat(diffuseFactorLoc, material.getDiffuse());
@@ -96,6 +99,7 @@ public class GameObjectShader extends Shader<GameObject> {
 	
 	@Override
 	public void finishModelRender() {
+		GL20.glDisableVertexAttribArray(3);
 		GL20.glDisableVertexAttribArray(2);
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(0);

@@ -33,5 +33,5 @@ void main(){
 	
 	fragPos = tangentSpace * worldPos;
 	camPos = tangentSpace * camLoc;
-	// TODO: apply tangent space matrix to light positions here
+	// TODO: apply tangent space matrix to light positions here, or just output tangentSpaceMatrix?
 }
