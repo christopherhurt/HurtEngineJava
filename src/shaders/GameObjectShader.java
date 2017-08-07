@@ -13,7 +13,8 @@ import lights.DirectionalLight;
 import lights.LightController;
 import lights.PointLight;
 import lights.Spotlight;
-import objects.GameObject;
+import maths.Mat4f;
+import renderEngine.GameObject;
 import renderEngine.Material;
 import renderEngine.Mesh;
 import renderEngine.Model;
@@ -28,6 +29,7 @@ public class GameObjectShader extends Shader<GameObject> {
 	private int projectionLoc;
 	private int viewLoc;
 	private int transformLoc;
+	private int drawInstancedLoc;
 	
 	private int camLocLoc;
 	private int numDLightsLoc;
@@ -77,7 +79,8 @@ public class GameObjectShader extends Shader<GameObject> {
 		
 		projectionLoc = getUniformLocation("projection");
 		viewLoc = getUniformLocation("view");
-		transformLoc = getUniformLocation("transform");
+		transformLoc = getUniformLocation("uniformTransform");
+		drawInstancedLoc = getUniformLocation("drawInstanced");
 		
 		camLocLoc = getUniformLocation("camLoc");
 		numDLightsLoc = getUniformLocation("numDLights");
@@ -156,6 +159,7 @@ public class GameObjectShader extends Shader<GameObject> {
 		bindAttribute(1, "texCoords");
 		bindAttribute(2, "norm");
 		bindAttribute(3, "tang");
+		bindAttribute(4, "instanceTransform");
 	}
 	
 	@Override
@@ -225,6 +229,15 @@ public class GameObjectShader extends Shader<GameObject> {
 		GL20.glEnableVertexAttribArray(2);
 		GL20.glEnableVertexAttribArray(3);
 		
+		boolean drawInstanced = mesh.getDrawInstanced();
+		if(drawInstanced){
+			GL20.glEnableVertexAttribArray(4);
+			GL20.glEnableVertexAttribArray(5);
+			GL20.glEnableVertexAttribArray(6);
+			GL20.glEnableVertexAttribArray(7);
+		}
+		loadBoolean(drawInstancedLoc, drawInstanced);
+		
 		loadBoolean(usesLightingLoc, material.usesLighting());
 		loadBoolean(usesLightMapLoc, material.usesLightMap());
 		loadBoolean(usesNormalMapLoc, material.usesNormalMap());
@@ -245,7 +258,26 @@ public class GameObjectShader extends Shader<GameObject> {
 	}
 	
 	@Override
-	public void finishModelRender() {
+	public void prepareInstancedRender(List<GameObject> instances, float[] instancedData){
+		int pointer = 0;
+		for(GameObject object : instances){
+			Mat4f transform = object.transformation();
+			for(int c = 0; c < 4; c++){
+				for(int r = 0; r < 4; r++){
+					instancedData[pointer++] = transform.value(r, c);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void finishModelRender(Model model) {
+		if(model.getMesh().getDrawInstanced()){
+			GL20.glDisableVertexAttribArray(7);
+			GL20.glDisableVertexAttribArray(6);
+			GL20.glDisableVertexAttribArray(5);
+			GL20.glDisableVertexAttribArray(4);
+		}
 		GL20.glDisableVertexAttribArray(3);
 		GL20.glDisableVertexAttribArray(2);
 		GL20.glDisableVertexAttribArray(1);

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL31;
 
 import objects.RenderObject;
 import shaders.Shader;
@@ -30,17 +31,29 @@ public class Handler<T extends RenderObject> {
 			List<T> list = objects.get(model);
 			Mesh mesh = model.getMesh();
 			
-			for(T object : list){
-				shader.prepareObjectRender(object);
+			if(mesh.getDrawInstanced()){
+				float[] instancedData = new float[list.size() * mesh.getInstanceDataSize()];
+				shader.prepareInstancedRender(list, instancedData);
+				mesh.updateInstancedVbo(instancedData);
 				
 				if(mesh.getDrawStrips()){
-					GL11.glDrawElements(GL11.GL_TRIANGLE_STRIP, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
+					GL31.glDrawElementsInstanced(GL11.GL_TRIANGLE_STRIP, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0, list.size());
 				}else{
-					GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
-				}	
+					GL31.glDrawElementsInstanced(GL11.GL_TRIANGLES, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0, list.size());
+				}
+			}else{
+				for(T object : list){
+					shader.prepareObjectRender(object);
+					
+					if(mesh.getDrawStrips()){
+						GL11.glDrawElements(GL11.GL_TRIANGLE_STRIP, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
+					}else{
+						GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
+					}	
+				}
 			}
 			
-			shader.finishModelRender();
+			shader.finishModelRender(model);
 		}
 		
 		shader.stop();
@@ -66,7 +79,7 @@ public class Handler<T extends RenderObject> {
 		if(list != null && list.contains(object)){
 			list.remove(object);
 		}else{
-			throw new HurtEngineException("Tried to remove a GameObejct that was never added to the handler");
+			throw new HurtEngineException("Tried to remove a GameObject that was never added to the handler");
 		}
 	}
 	

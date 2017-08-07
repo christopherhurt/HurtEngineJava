@@ -143,6 +143,7 @@ public class Cube extends Mesh { // TODO: make package-only class?
 	
 	public Cube(){
 		super(indices, vertices, texCoords, normals, tangents);
+		renderInstanced(16);
 	}
 	
 }

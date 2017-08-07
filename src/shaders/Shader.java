@@ -3,6 +3,7 @@ package shaders;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -35,7 +36,8 @@ public abstract class Shader<T extends RenderObject> {
 	public abstract void prepareShaderRender();
 	public abstract void prepareModelRender(Model model);
 	public abstract void prepareObjectRender(T object);
-	public abstract void finishModelRender();
+	public abstract void prepareInstancedRender(List<T> instances, float[] instancedData);
+	public abstract void finishModelRender(Model model);
 	
 	public void bindAttribute(int attribNumber, String attribName){
 		GL20.glBindAttribLocation(programID, attribNumber, attribName);

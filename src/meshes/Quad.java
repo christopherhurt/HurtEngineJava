@@ -39,6 +39,7 @@ public class Quad extends Mesh {
 	public Quad(){
 		super(indices, vertices, texCoords, normals, tangents);
 		setDrawStrips(true);
+		renderInstanced(16);
 	}
 	
 }

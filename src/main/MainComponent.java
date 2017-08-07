@@ -8,7 +8,7 @@ import display.Disp;
 import lights.Spotlight;
 import maths.Vec3f;
 import meshes.Meshes;
-import objects.GameObject;
+import renderEngine.GameObject;
 import renderEngine.Handler;
 import renderEngine.Material;
 import renderEngine.Mesh;
@@ -40,7 +40,7 @@ public class MainComponent {
 		handler.add(object2);
 		float rotX = 0;
 		
-		int numBlocks = 300;
+		int numBlocks = 9998;
 		float range = 50;
 		float maxSize = 3;
 		for(int i = 0; i < numBlocks; i++){
