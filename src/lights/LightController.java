@@ -3,23 +3,19 @@ package lights;
 import java.util.ArrayList;
 import java.util.List;
 
-import shaders.GameObjectShader;
 import utilities.HurtEngineException;
 
 public class LightController {
+	
+	public static final int MAX_LIGHTS = 62;
 	
 	private static final List<DirectionalLight> dLights = new ArrayList<>();
 	private static final List<PointLight> 		pLights = new ArrayList<>();
 	private static final List<Spotlight> 		sLights = new ArrayList<>();
 	
-	private static int maxLights = 4;
 	private static int numDLights = 0;
 	private static int numPLights = 0;
 	private static int numSLights = 0;
-	
-	public static void loadLights(GameObjectShader shader){
-		// TODO
-	}
 	
 	public static void addLight(DirectionalLight light){
 		dLights.add(light);
@@ -39,7 +35,7 @@ public class LightController {
 		ensureCapacity();
 	}
 	
-	public static void removeLight(DirectionalLight light){ // TODO: have this class API accessible?
+	public static void removeLight(DirectionalLight light){
 		boolean removed = dLights.remove(light);
 		
 		if(removed){
@@ -63,12 +59,16 @@ public class LightController {
 		}
 	}
 	
-	public static int getMaxLights(){
-		return maxLights;
+	public static List<DirectionalLight> getDirectionalLights(){
+		return dLights;
 	}
 	
-	public static void setMaxLights(int maxLights){
-		LightController.maxLights = maxLights;
+	public static List<PointLight> getPointLights(){
+		return pLights;
+	}
+	
+	public static List<Spotlight> getSpotlights(){
+		return sLights;
 	}
 	
 	public static int getNumDirectionalLights(){
@@ -86,8 +86,8 @@ public class LightController {
 	private static void ensureCapacity(){
 		int totalLights = numDLights + numPLights + numSLights;
 		
-		if(totalLights > maxLights){
-			throw new HurtEngineException("Exceeded maximum of " + maxLights + " total lights");
+		if(totalLights > MAX_LIGHTS){
+			throw new HurtEngineException("Exceeded maximum of " + MAX_LIGHTS + " total lights");
 		}
 	}
 	

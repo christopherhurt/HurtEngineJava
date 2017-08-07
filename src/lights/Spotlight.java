@@ -6,13 +6,15 @@ public class Spotlight extends Light {
 	
 	private Vec3f position;
 	private Vec3f direction;
-	private float cosineCutoff;
+	private float cosineInnerCutoff;
+	private float cosineOuterCutoff;
 	
-	public Spotlight(Vec3f position, Vec3f direction, float cutoffAngle, Vec3f color, float intensity, boolean isOn) {
+	public Spotlight(Vec3f position, Vec3f direction, float innerConeAngle, float outerConeAngle, Vec3f color, float intensity, boolean isOn) {
 		super(color, intensity, isOn);
 		this.position = position;
 		this.direction = direction;
-		setCutoffAngle(cutoffAngle);
+		setInnerConeAngle(innerConeAngle);
+		setOuterConeAngle(outerConeAngle);
 		LightController.addLight(this);
 	}
 	
@@ -32,12 +34,36 @@ public class Spotlight extends Light {
 		this.direction = direction;
 	}
 	
-	public float getCutoffAngle() {
-		return (float) Math.toDegrees(Math.acos(cosineCutoff));
+	public float getCosineInnerCutoff(){
+		return cosineInnerCutoff;
 	}
 	
-	public void setCutoffAngle(float cutoffAngle) {
-		this.cosineCutoff = (float) Math.cos(Math.toRadians(cutoffAngle));
+	public void setCosineInnerCutoff(float cosineInnerCutoff){
+		this.cosineInnerCutoff = cosineInnerCutoff;
+	}
+	
+	public float getCosineOuterCutoff(){
+		return cosineOuterCutoff;
+	}
+	
+	public void setCosineOuterCutoff(float cosineOuterCutoff){
+		this.cosineOuterCutoff = cosineOuterCutoff;
+	}
+	
+	public float getInnerConeAngle() {
+		return (float) Math.toDegrees(Math.acos(cosineInnerCutoff));
+	}
+	
+	public void setInnerConeAngle(float innerConeAngle) {
+		this.cosineInnerCutoff = (float) Math.cos(Math.toRadians(innerConeAngle));
+	}
+	
+	public float getOuterConeAngle() {
+		return (float) Math.toDegrees(Math.acos(cosineOuterCutoff));
+	}
+	
+	public void setOuterConeAngle(float outerConeAngle) {
+		this.cosineOuterCutoff = (float) Math.cos(Math.toRadians(outerConeAngle));
 	}
 	
 }

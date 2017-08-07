@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
 import maths.Mat4f;
+import maths.Vec2f;
 import maths.Vec3f;
 import objects.RenderObject;
 import renderEngine.Model;
@@ -71,6 +72,10 @@ public abstract class Shader<T extends RenderObject> {
 	
 	public void loadBoolean(int location, boolean value){
 		loadFloat(location, value ? 1 : 0);
+	}
+	
+	public void loadVec2f(int location, Vec2f vec){
+		GL20.glUniform2f(location, vec.getX(), vec.getY());
 	}
 	
 	public void loadVec3f(int location, Vec3f vec){

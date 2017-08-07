@@ -16,6 +16,9 @@ public class Material {
 	private float specular;
 	private int shininess;
 	
+	private float displacementFactor;
+	private boolean wrapDisplacedTexture;
+	
 	private boolean usesLighting;
 	private boolean usesLightMap;
 	private boolean usesNormalMap;
@@ -31,6 +34,9 @@ public class Material {
 		diffuse = 0;
 		specular = 0;
 		shininess = 0;
+		
+		displacementFactor = 0;
+		wrapDisplacedTexture = true;
 		
 		usesLighting = false;
 		usesLightMap = false;
@@ -60,9 +66,11 @@ public class Material {
 		return this;
 	}
 	
-	public Material setDepthMap(String depthMapFile){
+	public Material setDepthMap(String depthMapFile, float displacementFactor, boolean wrapDisplacedTexture){
 		deleteTexture(depthMap);
 		depthMap = Resources.loadTexture(depthMapFile);
+		this.displacementFactor = displacementFactor;
+		this.wrapDisplacedTexture = wrapDisplacedTexture;
 		usesDepthMap = true;
 		usesLighting = true;
 		return this;
@@ -98,7 +106,7 @@ public class Material {
 		GL11.glDeleteTextures(texture);
 	}
 	
-	public int getTexture(){
+	public int getDiffuseMap(){
 		return diffuseMap;
 	}
 	
@@ -112,18 +120,6 @@ public class Material {
 	
 	public int getDepthMap(){
 		return depthMap;
-	}
-	
-	public boolean usesLighting(){
-		return usesLighting;
-	}
-	
-	public boolean usesLightMap(){
-		return usesLightMap;
-	}
-	
-	public boolean usesNormalMap(){
-		return usesNormalMap;
 	}
 	
 	public boolean usesDepthMap(){
@@ -144,6 +140,26 @@ public class Material {
 	
 	public int getShininess(){
 		return shininess;
+	}
+	
+	public float getDisplacementFactor(){
+		return displacementFactor;
+	}
+	
+	public boolean getWrapDisplacedTexture(){
+		return wrapDisplacedTexture;
+	}
+	
+	public boolean usesLighting(){
+		return usesLighting;
+	}
+	
+	public boolean usesLightMap(){
+		return usesLightMap;
+	}
+	
+	public boolean usesNormalMap(){
+		return usesNormalMap;
 	}
 	
 }

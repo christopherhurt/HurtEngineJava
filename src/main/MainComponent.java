@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import cameras.Camera;
 import cameras.FirstPersonCam;
 import display.Disp;
+import lights.DirectionalLight;
 import maths.Vec3f;
 import meshes.Meshes;
 import objects.GameObject;
@@ -18,7 +19,7 @@ import utilities.LinearInterpolator;
 public class MainComponent {
 		
 	public static void init(){
-		Disp.create(new Vec3f(0, 0, 0));
+		Disp.create(new Vec3f(0.5f, 0.5f, 1.0f));
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glFrontFace(GL11.GL_CW);
 		GL11.glCullFace(GL11.GL_BACK);
@@ -27,6 +28,7 @@ public class MainComponent {
 		material.setAmbient(0.3f);
 		material.setDiffuse(0.7f);
 		material.setSpecular(0.4f, 32);
+		new DirectionalLight(new Vec3f(0, 0, -1), new Vec3f(1, 1, 1), 1, true);
 		Model model = new Model(cube, material);
 		GameObject object = new GameObject(model, new Vec3f(0, 0, 0), new Vec3f(0, 0, 0), new Vec3f(1, 1, 1));
 		GameObject object2 = new GameObject(model, new Vec3f(-1, 1, -3), new Vec3f(0, 0, 0), new Vec3f(0.5f, 0.5f, 0.5f));
