@@ -30,7 +30,7 @@ public class Material {
 		normalMap = -1;
 		depthMap = -1;
 		
-		ambient = 1;
+		ambient = 0;
 		diffuse = 0;
 		specular = 0;
 		shininess = 0;

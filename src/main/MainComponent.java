@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import cameras.Camera;
 import cameras.FirstPersonCam;
 import display.Disp;
-import lights.DirectionalLight;
+import lights.Spotlight;
 import maths.Vec3f;
 import meshes.Meshes;
 import objects.GameObject;
@@ -25,10 +25,10 @@ public class MainComponent {
 		GL11.glCullFace(GL11.GL_BACK);
 		Mesh cube = Meshes.CUBE;
 		Material material = new Material("brick");
-		material.setAmbient(0.3f);
+		material.setAmbient(0.1f);
 		material.setDiffuse(0.7f);
-		material.setSpecular(0.4f, 32);
-		new DirectionalLight(new Vec3f(0, 0, -1), new Vec3f(1, 1, 1), 1, true);
+//		material.setSpecular(0.4f, 32);
+		new Spotlight(new Vec3f(0, 0, 0), new Vec3f(0, 0, -1), 30, 35, new Vec3f(1, 1, 1), 1, true);
 		Model model = new Model(cube, material);
 		GameObject object = new GameObject(model, new Vec3f(0, 0, 0), new Vec3f(0, 0, 0), new Vec3f(1, 1, 1));
 		GameObject object2 = new GameObject(model, new Vec3f(-1, 1, -3), new Vec3f(0, 0, 0), new Vec3f(0.5f, 0.5f, 0.5f));
@@ -49,6 +49,22 @@ public class MainComponent {
 			float size = (float) Math.random() * maxSize;
 			Vec3f scale = new Vec3f(size, size, size);
 			handler.add(new GameObject(model, pos, rot, scale));
+		}
+		
+		Model quad = new Model(Meshes.QUAD, material);
+		
+		int sideLength = 50;
+		float quadScale = 3;
+		float depth = 20;
+		for(int i = 0; i < sideLength; i++){
+			float offset = -(quadScale / 2 * (sideLength - 1));
+			for(int j = 0; j < sideLength; j++){
+				Vec3f pos = new Vec3f(offset + j * quadScale, offset + i * quadScale, -depth);
+				Vec3f rot = new Vec3f(0, 0, 0);
+				Vec3f scale = new Vec3f(quadScale, quadScale, quadScale);
+				GameObject derQuad = new GameObject(quad, pos, rot, scale);
+				handler.add(derQuad);
+			}
 		}
 		
 		while(Disp.isOpen()){

@@ -147,7 +147,7 @@ void main(){
 				vec3 lightColor = light.light.intensity * light.light.color;
 				vec3 toLight = normalize(tangentSpace * -light.direction);
 				float diff = max(dot(norm, toLight), 0.0);
-				float spec = pow(max(dot(reflect(light.direction, norm), toCam), 0.0), shininess);
+				float spec = max(pow(dot(reflect(-toLight, norm), toCam), shininess), 0.0);
 				dValues.ambient += ambientFactor * lightColor;
 				dValues.diffuse += diffuseFactor * diff * lightColor;
 				dValues.specular += specularFactor * spec * lightColor;
@@ -163,7 +163,7 @@ void main(){
 				vec3 difference = light.position - fragPos;
 				vec3 toLight = normalize(tangentSpace * difference);
 				float diff = max(dot(norm, toLight), 0.0);
-				float spec = pow(max(dot(reflect(-toLight, norm), toCam), 0.0), shininess);
+				float spec = max(pow(dot(reflect(-toLight, norm), toCam), shininess), 0.0);
 				float dist = length(difference);
 				float atten = 1.0 / (attenC + light.attenuation.x * dist + light.attenuation.y * dist * dist);
 				pValues.ambient += ambientFactor * lightColor;
@@ -180,9 +180,9 @@ void main(){
 				vec3 toLight = normalize(tangentSpace * (light.position - fragPos));
 				float theta = dot(toLight, normalize(tangentSpace * -light.direction));
 				sValues.ambient += ambientFactor * lightColor;
-				if(theta > light.cosineInnerCutoff){ // TODO: change to outerCutoff?
+				if(theta > light.cosineOuterCutoff){
 					float diff = max(dot(norm, toLight), 0.0);
-					float spec = pow(max(dot(reflect(-toLight, norm), toCam), 0.0), shininess);
+					float spec = max(pow(dot(reflect(-toLight, norm), toCam), shininess), 0.0);
 					float epsilon = light.cosineInnerCutoff - light.cosineOuterCutoff;
 					float smoothFactor = clamp((theta - light.cosineOuterCutoff) / epsilon, 0.0, 1.0);
 					sValues.diffuse += diffuseFactor * smoothFactor * diff * lightColor;

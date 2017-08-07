@@ -172,9 +172,9 @@ public class GameObjectShader extends Shader<GameObject> {
 		List<Spotlight> sLights = LightController.getSpotlights();
 		
 		loadVec3f(camLocLoc, cam.getLocation());
-		loadFloat(numDLightsLoc, numDLights);
-		loadFloat(numPLightsLoc, numPLights);
-		loadFloat(numSLightsLoc, numSLights);
+		loadInt(numDLightsLoc, numDLights);
+		loadInt(numPLightsLoc, numPLights);
+		loadInt(numSLightsLoc, numSLights);
 		
 		for(int i = 0; i < numDLights; i++){
 			DirectionalLight light = dLights.get(i);
