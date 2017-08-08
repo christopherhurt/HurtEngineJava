@@ -163,7 +163,7 @@ void main(){
 				vec3 difference = light.position - fragPos;
 				vec3 toLight = normalize(tangentSpace * difference);
 				float diff = max(dot(norm, toLight), 0.0);
-				float spec = max(pow(dot(reflect(-toLight, norm), toCam), shininess), 0.0);
+				float spec = max(pow(dot(reflect(-toLight, norm), toCam), shininess), 0.0); // TODO: something wrong with this line, check reflect function and toCam calculation
 				float dist = length(difference);
 				float atten = 1.0 / (attenC + light.attenuation.x * dist + light.attenuation.y * dist * dist);
 				pValues.ambient += ambientFactor * lightColor;

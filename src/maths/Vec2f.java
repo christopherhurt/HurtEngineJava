@@ -41,6 +41,10 @@ public class Vec2f {
 		return (float) Math.toDegrees(Math.acos(dot / lengths));
 	}
 	
+	public Vec2f sub(Vec2f vec){
+		return new Vec2f(this.x - vec.x, this.y - vec.y);
+	}
+	
 	public float getX() {
 		return x;
 	}

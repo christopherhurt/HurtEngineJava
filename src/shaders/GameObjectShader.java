@@ -14,7 +14,7 @@ import lights.LightController;
 import lights.PointLight;
 import lights.Spotlight;
 import maths.Mat4f;
-import renderEngine.GameObject;
+import objects.GameObject;
 import renderEngine.Material;
 import renderEngine.Mesh;
 import renderEngine.Model;

@@ -5,10 +5,10 @@ import org.lwjgl.opengl.GL11;
 import cameras.Camera;
 import cameras.FirstPersonCam;
 import display.Disp;
-import lights.Spotlight;
+import lights.PointLight;
 import maths.Vec3f;
 import meshes.Meshes;
-import renderEngine.GameObject;
+import objects.GameObject;
 import renderEngine.Handler;
 import renderEngine.Material;
 import renderEngine.Mesh;
@@ -24,11 +24,15 @@ public class MainComponent {
 		GL11.glFrontFace(GL11.GL_CW);
 		GL11.glCullFace(GL11.GL_BACK);
 		Mesh cube = Meshes.CUBE;
-		Material material = new Material("brick");
+		Material material = new Material("bricks2");
+		material.setNormalMap("bricks2_normal");
+		material.setDepthMap("bricks2_disp", 0.2f, true);
 		material.setAmbient(0.1f);
 		material.setDiffuse(0.7f);
 //		material.setSpecular(0.4f, 32);
-		new Spotlight(new Vec3f(0, 0, 0), new Vec3f(0, 0, -1), 30, 35, new Vec3f(1, 1, 1), 1, true);
+//		new Spotlight(new Vec3f(0, 0, 0), new Vec3f(0, 0, -1), 30, 35, new Vec3f(1, 1, 1), 1, true);
+//		new DirectionalLight(new Vec3f(-1, 0, 0), new Vec3f(1f, 1f, 1.0f), 0.5f, true);
+		new PointLight(new Vec3f(0, 0, 0), 5, new Vec3f(1, 1, 1), 1, true);
 		Model model = new Model(cube, material);
 		GameObject object = new GameObject(model, new Vec3f(0, 0, 0), new Vec3f(0, 0, 0), new Vec3f(1, 1, 1));
 		GameObject object2 = new GameObject(model, new Vec3f(-1, 1, -3), new Vec3f(0, 0, 0), new Vec3f(0.5f, 0.5f, 0.5f));
@@ -40,7 +44,7 @@ public class MainComponent {
 		handler.add(object2);
 		float rotX = 0;
 		
-		int numBlocks = 9998;
+		int numBlocks = 500;
 		float range = 50;
 		float maxSize = 3;
 		for(int i = 0; i < numBlocks; i++){

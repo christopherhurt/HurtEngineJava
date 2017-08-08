@@ -1,8 +1,8 @@
-package renderEngine;
+package objects;
 
 import maths.Mat4f;
 import maths.Vec3f;
-import objects.RenderObject;
+import renderEngine.Model;
 
 public class GameObject extends RenderObject {
 	

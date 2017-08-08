@@ -32,7 +32,7 @@ void main(){
 	normal = normalize(adjustedTransform * norm);
 	
 	vec3 tangent = normalize(adjustedTransform * tang);
-	vec3 bitangent = cross(tangent, normal);
+	vec3 bitangent = cross(normal, tangent);
 	tangentSpace = mat3(
 		tangent.x, bitangent.x, normal.x,
 		tangent.y, bitangent.y, normal.y,

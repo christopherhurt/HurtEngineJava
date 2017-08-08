@@ -16,10 +16,10 @@ public class Quad extends Mesh {
 	};
 	
 	private static final float[] texCoords = {
-		0, 1,
 		0, 0,
-		1, 1,
-		1, 0
+		0, 1,
+		1, 0,
+		1, 1
 	};
 
 	private static final float[] normals = {
