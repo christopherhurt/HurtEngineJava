@@ -246,7 +246,7 @@ public class GameObjectShader extends Shader<GameObject> {
 		loadFloat(ambientFactorLoc, material.getAmbient());
 		loadFloat(diffuseFactorLoc, material.getDiffuse());
 		loadFloat(specularFactorLoc, material.getSpecular());
-		loadFloat(shininessLoc, material.getShininess());
+		loadInt(shininessLoc, material.getShininess());
 		
 		loadFloat(displacementFactorLoc, material.getDisplacementFactor());
 		loadBoolean(wrapDisplacedTextureLoc, material.getWrapDisplacedTexture());
