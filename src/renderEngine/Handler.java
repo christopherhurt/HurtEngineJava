@@ -56,6 +56,7 @@ public class Handler<T extends RenderObject> {
 			shader.finishModelRender(model);
 		}
 		
+		shader.finishShaderRender();
 		shader.stop();
 	}
 	

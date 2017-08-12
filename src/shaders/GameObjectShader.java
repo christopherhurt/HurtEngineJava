@@ -21,8 +21,8 @@ import renderEngine.Model;
 
 public class GameObjectShader extends Shader<GameObject> {
 	
-	public static final String VERTEX_SHADER_FILE = "src/shaderPrograms/gameObjectVS.glsl";
-	public static final String FRAGMENT_SHADER_FILE = "src/shaderPrograms/gameObjectFS.glsl";
+	private static final String VERTEX_SHADER_FILE = "src/shaderPrograms/gameObjectVS.glsl";
+	private static final String FRAGMENT_SHADER_FILE = "src/shaderPrograms/gameObjectFS.glsl";
 	
 	private Camera cam;
 	
@@ -287,4 +287,9 @@ public class GameObjectShader extends Shader<GameObject> {
 		GL30.glBindVertexArray(0);
 	}
 
+	@Override
+	public void finishShaderRender() {
+		// Empty
+	}
+	
 }

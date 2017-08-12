@@ -6,13 +6,16 @@ import cameras.Camera;
 import cameras.FirstPersonCam;
 import display.Disp;
 import lights.Spotlight;
+import maths.Vec2f;
 import maths.Vec3f;
 import meshes.Meshes;
+import objects.GUI;
 import objects.GameObject;
 import renderEngine.Handler;
 import renderEngine.Material;
 import renderEngine.Mesh;
 import renderEngine.Model;
+import shaders.GUIShader;
 import shaders.GameObjectShader;
 import utilities.LinearInterpolator;
 
@@ -71,12 +74,23 @@ public class MainComponent {
 			}
 		}
 		
+		Handler<GUI> guiHandler = new Handler<>(new GUIShader());
+		GUI gui = new GUI("transparentRed", new Vec2f(-0.5f, -0.5f), new Vec2f(1, 1));
+		GUI gui2 = new GUI("bricks2_disp", new Vec2f(0, 0), new Vec2f(1, 1));
+		guiHandler.add(gui2);
+		guiHandler.add(gui);
+		float angle = 0;
+		float delta = 0.05f;
+		
 		while(Disp.isOpen()){
 			Disp.clear();
 			object2.setRot(new Vec3f(0, 0, rotX++));
 			LinearInterpolator.updateValues(); // TODO: create one hidden update method
 			cam.update(); // TODO: TEMP
 			handler.render();
+			gui.setPosition(new Vec2f((float) Math.cos(angle) - 0.5f, (float) Math.sin(angle) - 0.5f));
+			angle += delta;
+			guiHandler.render(); // needs to be AFTER game object handler
 			Disp.update();
 			System.gc(); // TODO: find fix to buffer garbage collection?
 		}

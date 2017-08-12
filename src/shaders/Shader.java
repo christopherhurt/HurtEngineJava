@@ -38,6 +38,7 @@ public abstract class Shader<T extends RenderObject> {
 	public abstract void prepareObjectRender(T object);
 	public abstract void prepareInstancedRender(List<T> instances, float[] instancedData);
 	public abstract void finishModelRender(Model model);
+	public abstract void finishShaderRender();
 	
 	public void bindAttribute(int attribNumber, String attribName){
 		GL20.glBindAttribLocation(programID, attribNumber, attribName);
