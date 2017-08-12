@@ -200,4 +200,25 @@ public class Mat4f {
 		return view;
 	}
 	
+	public static Mat4f transformView(Mat4f view, Vec3f pos, Vec3f scale){
+		Mat4f transform = translation(pos);
+		
+		for(int r = 0; r < 3; r++){
+			for(int c = 0; c < 3; c++){
+				float value = view.value(c, r);
+				transform.put(r, c, value);
+			}
+		}
+		
+		float xValue = transform.value(0, 0);
+		float yValue = transform.value(1, 1);
+		float zValue = transform.value(2, 2);
+		
+		transform.put(0, 0, scale.getX() * xValue);
+		transform.put(1, 1, scale.getY() * yValue);
+		transform.put(2, 2, scale.getZ() * zValue);
+		
+		return view.mul(transform);
+	}
+	
 }

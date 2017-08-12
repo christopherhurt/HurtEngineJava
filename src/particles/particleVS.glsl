@@ -2,20 +2,24 @@
 
 in vec3 pos;
 in vec2 texCoords;
-in mat4 modelViewMatrix;
+in mat4 transformView;
+in int totalTextures;
+in int currentTexture;
+in float transitionAount;
 
 out vec2 currentCoords;
 out vec2 nextCoords;
-
-uniform int totalTextures;
-uniform int currentTexture;
+flat out bool hasNext;
+flat out float passTransitionAmount;
 
 void main(){
-	gl_Position = modelViewMatrix * vec4(pos, 1.0);
+	gl_Position = transformView * vec4(pos, 1.0);
+	passTransitionAmount = transitionAmount;
 	
 	int sideLength = ceil(sqrt(totalTextures));
 	float uvDelta = 1.0 / sideLength;
-	int nextTexture = mod(currentTexture + 1, totalTextures);
+	int nextTexture = currentTexture + 1;
+	hasNext = currentTextures < totalTextures;
 	
 	currentCoords = texCoords * uvDelta;
 	nextCoords = texCoords * uvDelta;

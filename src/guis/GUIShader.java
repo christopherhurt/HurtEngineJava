@@ -32,7 +32,7 @@ public class GUIShader extends Shader<GUI> {
 	}
 
 	@Override
-	public void bindAttributes() {
+	public void bindAttributes() { // TODO: change attributes
 		bindAttribute(0, "pos");
 		bindAttribute(1, "texCoords");
 		bindAttribute(4, "transform");

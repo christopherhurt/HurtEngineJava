@@ -6,6 +6,7 @@ import cameras.Camera;
 import cameras.FirstPersonCam;
 import display.Disp;
 import gameObjects.GameObject;
+import gameObjects.GameObjectQuad;
 import gameObjects.GameObjectShader;
 import guis.GUI;
 import guis.GUIShader;
@@ -19,6 +20,7 @@ import renderEngine.Material;
 import renderEngine.Mesh;
 import renderEngine.Model;
 import utilities.LinearInterpolator;
+import utilities.Time;
 
 public class MainComponent {
 		
@@ -59,7 +61,7 @@ public class MainComponent {
 			handler.add(new GameObject(model, pos, rot, scale));
 		}
 		
-		Model quad = new Model(Meshes.QUAD, material);
+		Model quad = new Model(new GameObjectQuad(), material);
 		
 		int sideLength = 50;
 		float quadScale = 3;
@@ -86,6 +88,7 @@ public class MainComponent {
 		while(Disp.isOpen()){
 			Disp.clear();
 			object2.setRot(new Vec3f(0, 0, rotX++));
+			Time.calcTimePassed();
 			LinearInterpolator.updateValues(); // TODO: create one hidden update method
 			cam.update(); // TODO: TEMP
 			Particles.update();

@@ -123,10 +123,6 @@ public class Mesh {
 			GL30.glBindVertexArray(vao);
 			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, instancedVbo);
 			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, instanceDataSize * MAX_INSTANCES * 4, GL15.GL_STREAM_DRAW);
-			createInstanceAttribute(4, 4, 0);
-			createInstanceAttribute(5, 4, 4);
-			createInstanceAttribute(6, 4, 8);
-			createInstanceAttribute(7, 4, 12);
 			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 			GL30.glBindVertexArray(0);
 			
@@ -136,9 +132,13 @@ public class Mesh {
 		}
 	}
 	
-	private void createInstanceAttribute(int attribute, int dataSize, int offset){
+	public void createInstanceAttribute(int attribute, int dataSize, int offset){
+		GL30.glBindVertexArray(vao);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, instancedVbo);
 		GL20.glVertexAttribPointer(attribute, dataSize, GL11.GL_FLOAT, false, instanceDataSize * 4, offset * 4);
 		GL33.glVertexAttribDivisor(attribute, 1);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+		GL30.glBindVertexArray(0);
 	}
 	
 	public int[] getIndices() {

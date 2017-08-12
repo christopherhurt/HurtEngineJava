@@ -10,12 +10,14 @@ import renderEngine.RenderObject;
 
 public class GUI extends RenderObject {
 	
+	private static final GUIQuad GUI_MESH = new GUIQuad();
+	
 	private Vec2f pos;
 	private Vec3f rot;
 	private Vec3f scale;
 	
 	public GUI(String textureFile, Vec2f position, Vec2f dimensions) {
-		super(new Model(Meshes.QUAD, new Material(textureFile)));
+		super(new Model(GUI_MESH, new Material(textureFile)));
 		pos = new Vec2f(position.getX(), position.getY());
 		rot = new Vec3f(0, 0, 0);
 		scale = new Vec3f(dimensions.getX(), dimensions.getY(), 1);
