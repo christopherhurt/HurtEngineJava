@@ -1,6 +1,4 @@
-package objects;
-
-import renderEngine.Model;
+package renderEngine;
 
 public class RenderObject {
 	

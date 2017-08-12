@@ -1,4 +1,4 @@
-package shaders;
+package renderEngine;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,8 +11,6 @@ import org.lwjgl.opengl.GL20;
 import maths.Mat4f;
 import maths.Vec2f;
 import maths.Vec3f;
-import objects.RenderObject;
-import renderEngine.Model;
 
 public abstract class Shader<T extends RenderObject> {
 	

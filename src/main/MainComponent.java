@@ -5,18 +5,19 @@ import org.lwjgl.opengl.GL11;
 import cameras.Camera;
 import cameras.FirstPersonCam;
 import display.Disp;
+import gameObjects.GameObject;
+import gameObjects.GameObjectShader;
+import guis.GUI;
+import guis.GUIShader;
 import lights.Spotlight;
 import maths.Vec2f;
 import maths.Vec3f;
 import meshes.Meshes;
-import objects.GUI;
-import objects.GameObject;
+import particles.Particles;
 import renderEngine.Handler;
 import renderEngine.Material;
 import renderEngine.Mesh;
 import renderEngine.Model;
-import shaders.GUIShader;
-import shaders.GameObjectShader;
 import utilities.LinearInterpolator;
 
 public class MainComponent {
@@ -87,6 +88,7 @@ public class MainComponent {
 			object2.setRot(new Vec3f(0, 0, rotX++));
 			LinearInterpolator.updateValues(); // TODO: create one hidden update method
 			cam.update(); // TODO: TEMP
+			Particles.update();
 			handler.render();
 			gui.setPosition(new Vec2f((float) Math.cos(angle) - 0.5f, (float) Math.sin(angle) - 0.5f));
 			angle += delta;

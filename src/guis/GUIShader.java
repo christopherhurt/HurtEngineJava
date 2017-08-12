@@ -1,4 +1,4 @@
-package shaders;
+package guis;
 
 import java.util.List;
 
@@ -9,10 +9,10 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
 import maths.Mat4f;
-import objects.GUI;
 import renderEngine.Material;
 import renderEngine.Mesh;
 import renderEngine.Model;
+import renderEngine.Shader;
 
 public class GUIShader extends Shader<GUI> {
 	

@@ -1,4 +1,4 @@
-package shaders;
+package gameObjects;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import lights.LightController;
 import lights.PointLight;
 import lights.Spotlight;
 import maths.Mat4f;
-import objects.GameObject;
 import renderEngine.Material;
 import renderEngine.Mesh;
 import renderEngine.Model;
+import renderEngine.Shader;
 
 public class GameObjectShader extends Shader<GameObject> {
 	

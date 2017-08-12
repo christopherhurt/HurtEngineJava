@@ -8,8 +8,6 @@ import java.util.Map;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL31;
 
-import objects.RenderObject;
-import shaders.Shader;
 import utilities.HurtEngineException;
 
 public class Handler<T extends RenderObject> {
