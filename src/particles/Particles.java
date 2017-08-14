@@ -3,9 +3,12 @@ package particles;
 import java.util.ArrayList;
 import java.util.List;
 
+import renderEngine.Handler;
+
 public class Particles {
 	
 	private static final List<ParticleSystem> systems = new ArrayList<>();
+	private static final Handler<Particle> particleHandler = new Handler<>(new ParticleShader());
 	
 	private static float gravity = 10;
 	

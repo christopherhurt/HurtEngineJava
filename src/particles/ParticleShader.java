@@ -9,6 +9,9 @@ import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import cameras.Camera;
+import maths.Mat4f;
+import maths.Vec3f;
 import renderEngine.Material;
 import renderEngine.Mesh;
 import renderEngine.Model;
@@ -19,10 +22,12 @@ public class ParticleShader extends Shader<Particle> {
 	private static final String VERTEX_SHADER_FILE = "src/shaderPrograms/particleVS.glsl";
 	private static final String FRAGMENT_SHADER_FILE = "src/shaderPrograms/particleFS.glsl";
 	
+	private Camera cam;
 	private int atlasLoc;
 	
-	public ParticleShader() {
+	public ParticleShader(Camera cam) {
 		super(VERTEX_SHADER_FILE, FRAGMENT_SHADER_FILE);
+		this.cam = cam;
 		
 		atlasLoc = getUniformLocation("atlas");
 		
@@ -75,7 +80,37 @@ public class ParticleShader extends Shader<Particle> {
 	
 	@Override
 	public void prepareInstancedRender(List<Particle> instances, float[] instancedData) {
-		// TODO: sort all instances (careful with HUD particles), then store their instance data
+		if(instances.size() > 0 && !instances.get(0).isHudParticle()){
+			Vec3f camLoc = cam.getLocation();
+			
+			for(int i = 1; i < instances.size(); i++){
+				Particle sortedParticle = instances.get(i);
+				float sortedDistance = sortedParticle.getPosition().sub(camLoc).length();
+				
+				for(int j = i; j > 0; j--){
+					Particle currentParticle = instances.get(j);
+					float currentDistance = currentParticle.getPosition().sub(camLoc).length();
+					
+					if(currentDistance > sortedDistance){
+						instances.add(j + 1, instances.remove(i));
+					}
+				}
+			}
+		}
+		
+		Mat4f viewMatrix = cam.view();
+		int pointer = 0;
+		for(Particle particle : instances){
+			Mat4f transform = particle.transformViewMatrix(viewMatrix);
+			for(int c = 0; c < 4; c++){
+				for(int r = 0; r < 4; r++){
+					instancedData[pointer++] = transform.value(r, c);
+				}
+			}
+			instancedData[pointer++] = particle.getTotalTextures();
+			instancedData[pointer++] = particle.getCurrentTexture();
+			instancedData[pointer++] = particle.getTransitionAmount();
+		}
 	}
 	
 	@Override

@@ -53,6 +53,14 @@ public class Particle extends RenderObject {
 		return hudParticle ? Mat4f.transform(pos, NO_ROTATION_VECTOR, scale) : Mat4f.transformView(view, pos, scale);
 	}
 	
+	public Vec3f getPosition(){
+		return pos;
+	}
+	
+	public int getTotalTextures(){
+		return totalTextures;
+	}
+	
 	public int getCurrentTexture(){
 		return currentTexture;
 	}
@@ -63,6 +71,10 @@ public class Particle extends RenderObject {
 	
 	public boolean isDead(){
 		return isDead;
+	}
+	
+	public boolean isHudParticle(){
+		return hudParticle;
 	}
 	
 }
