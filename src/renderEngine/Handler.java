@@ -22,7 +22,7 @@ public class Handler<T extends RenderObject> {
 	
 	public void render(){
 		shader.start();
-		shader.prepareShaderRender();
+		shader.prepareShaderRender(objects);
 		
 		for(Model model : objects.keySet()){
 			shader.prepareModelRender(model);

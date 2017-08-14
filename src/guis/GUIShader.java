@@ -1,6 +1,7 @@
 package guis;
 
 import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -32,14 +33,14 @@ public class GUIShader extends Shader<GUI> {
 	}
 
 	@Override
-	public void bindAttributes() { // TODO: change attributes
+	public void bindAttributes() {
 		bindAttribute(0, "pos");
 		bindAttribute(1, "texCoords");
-		bindAttribute(4, "transform");
+		bindAttribute(2, "transform");
 	}
 
 	@Override
-	public void prepareShaderRender() {
+	public void prepareShaderRender(Map<Model, List<GUI>> objects) {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -56,10 +57,10 @@ public class GUIShader extends Shader<GUI> {
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIndexVbo());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
+		GL20.glEnableVertexAttribArray(2);
+		GL20.glEnableVertexAttribArray(3);
 		GL20.glEnableVertexAttribArray(4);
 		GL20.glEnableVertexAttribArray(5);
-		GL20.glEnableVertexAttribArray(6);
-		GL20.glEnableVertexAttribArray(7);
 	}
 	
 	@Override
@@ -82,10 +83,10 @@ public class GUIShader extends Shader<GUI> {
 
 	@Override
 	public void finishModelRender(Model model) {
-		GL20.glDisableVertexAttribArray(7);
-		GL20.glDisableVertexAttribArray(6);
 		GL20.glDisableVertexAttribArray(5);
 		GL20.glDisableVertexAttribArray(4);
+		GL20.glDisableVertexAttribArray(3);
+		GL20.glDisableVertexAttribArray(2);
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(0);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -96,7 +97,7 @@ public class GUIShader extends Shader<GUI> {
 	@Override
 	public void finishShaderRender(){
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDisable(GL11.GL_BLEND); // TODO: fix to implement trasnparency
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
 }

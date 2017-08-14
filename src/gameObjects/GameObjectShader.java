@@ -1,6 +1,7 @@
 package gameObjects;
 
 import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -163,7 +164,7 @@ public class GameObjectShader extends Shader<GameObject> {
 	}
 	
 	@Override
-	public void prepareShaderRender(){
+	public void prepareShaderRender(Map<Model, List<GameObject>> objects){
 		loadMat4f(projectionLoc, cam.projection());
 		loadMat4f(viewLoc, cam.view());
 		

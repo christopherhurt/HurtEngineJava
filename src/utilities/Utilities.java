@@ -21,4 +21,9 @@ public class Utilities {
 		return buffer;
 	}
 	
+	public static <T extends Comparable<T>> T[] greatestToLeastInsertionSort(T[] items){ // TODO: check declaration with textbook
+		// TODO
+		return null;
+	}
+	
 }

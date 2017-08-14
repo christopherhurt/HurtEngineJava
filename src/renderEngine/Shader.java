@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -31,7 +32,7 @@ public abstract class Shader<T extends RenderObject> {
 	}
 	
 	public abstract void bindAttributes();
-	public abstract void prepareShaderRender();
+	public abstract void prepareShaderRender(Map<Model, List<T>> objects);
 	public abstract void prepareModelRender(Model model);
 	public abstract void prepareObjectRender(T object);
 	public abstract void prepareInstancedRender(List<T> instances, float[] instancedData);

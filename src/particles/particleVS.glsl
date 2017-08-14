@@ -3,9 +3,9 @@
 in vec3 pos;
 in vec2 texCoords;
 in mat4 transformView;
-in int totalTextures;
-in int currentTexture;
-in float transitionAount;
+in float totalTextures;
+in float currentTexture;
+in float transitionAmount;
 
 out vec2 currentCoords;
 out vec2 nextCoords;

@@ -1,6 +1,7 @@
 package particles;
 
 import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -31,16 +32,17 @@ public class ParticleShader extends Shader<Particle> {
 	}
 	
 	@Override
-	public void bindAttributes() { // TODO: Change attributes
+	public void bindAttributes() {
 		bindAttribute(0, "pos");
 		bindAttribute(1, "texCoords");
-		bindAttribute(4, "transformView");
-		bindAttribute(8, "currentTexture");
-		bindAttribute(9, "transitionAmount");
+		bindAttribute(2, "transformView");
+		bindAttribute(6, "totalTextures");
+		bindAttribute(7, "currentTexture");
+		bindAttribute(8, "transitionAmount");
 	}
 	
 	@Override
-	public void prepareShaderRender() {
+	public void prepareShaderRender(Map<Model, List<Particle>> objects) { // TODO: sort systems here, careful with HUD systems
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -57,12 +59,13 @@ public class ParticleShader extends Shader<Particle> {
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIndexVbo());
 		GL20.glEnableVertexAttribArray(0);
 		GL20.glEnableVertexAttribArray(1);
+		GL20.glEnableVertexAttribArray(2);
+		GL20.glEnableVertexAttribArray(3);
 		GL20.glEnableVertexAttribArray(4);
 		GL20.glEnableVertexAttribArray(5);
 		GL20.glEnableVertexAttribArray(6);
 		GL20.glEnableVertexAttribArray(7);
 		GL20.glEnableVertexAttribArray(8);
-		GL20.glEnableVertexAttribArray(9);
 	}
 	
 	@Override
@@ -72,15 +75,18 @@ public class ParticleShader extends Shader<Particle> {
 	
 	@Override
 	public void prepareInstancedRender(List<Particle> instances, float[] instancedData) {
-		
+		// TODO: sort all instances (careful with HUD particles), then store their instance data
 	}
 	
 	@Override
 	public void finishModelRender(Model model) {
+		GL20.glDisableVertexAttribArray(8);
 		GL20.glDisableVertexAttribArray(7);
 		GL20.glDisableVertexAttribArray(6);
 		GL20.glDisableVertexAttribArray(5);
 		GL20.glDisableVertexAttribArray(4);
+		GL20.glDisableVertexAttribArray(3);
+		GL20.glDisableVertexAttribArray(2);
 		GL20.glDisableVertexAttribArray(1);
 		GL20.glDisableVertexAttribArray(0);
 		GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);

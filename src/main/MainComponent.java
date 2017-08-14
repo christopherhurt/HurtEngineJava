@@ -6,7 +6,6 @@ import cameras.Camera;
 import cameras.FirstPersonCam;
 import display.Disp;
 import gameObjects.GameObject;
-import gameObjects.GameObjectQuad;
 import gameObjects.GameObjectShader;
 import guis.GUI;
 import guis.GUIShader;
@@ -14,6 +13,7 @@ import lights.Spotlight;
 import maths.Vec2f;
 import maths.Vec3f;
 import meshes.Meshes;
+import meshes.Quad;
 import particles.Particles;
 import renderEngine.Handler;
 import renderEngine.Material;
@@ -61,7 +61,7 @@ public class MainComponent {
 			handler.add(new GameObject(model, pos, rot, scale));
 		}
 		
-		Model quad = new Model(new GameObjectQuad(), material);
+		Model quad = new Model(new Quad(), material);
 		
 		int sideLength = 50;
 		float quadScale = 3;
