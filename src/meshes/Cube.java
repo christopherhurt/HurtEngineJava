@@ -167,7 +167,6 @@ public class Cube extends Mesh {
 	
 	public Cube(){
 		super(indices, vertices, texCoords, normals, tangents);
-		renderInstanced(16); // TODO: better way of doing the data size parameter?
 	}
 	
 }
