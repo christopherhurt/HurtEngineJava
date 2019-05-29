@@ -16,7 +16,7 @@ import utilities.LinearInterpolator;
 import utilities.Time;
 
 public class MainComponent {
-		
+	
 	public static void init(){
 		Disp.create(new Vec3f(0.5f, 0.5f, 1.0f));
 		Camera cam = new FirstPersonCam(new Vec3f(0, 0, 0), new Vec3f(0, 0, -1), 70, 0.001f, 1000);

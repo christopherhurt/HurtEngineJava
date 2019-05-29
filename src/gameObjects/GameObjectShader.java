@@ -22,8 +22,8 @@ import renderEngine.Shader;
 
 public class GameObjectShader extends Shader<GameObject> {
 	
-	private static final String VERTEX_SHADER_FILE = "src/gameObjects/gameObjectVS.glsl";
-	private static final String FRAGMENT_SHADER_FILE = "src/gameObjects/gameObjectFS.glsl";
+	private static final String VERTEX_SHADER_FILE = "src/shaderPrograms/gameObjectVS.glsl";
+	private static final String FRAGMENT_SHADER_FILE = "src/shaderPrograms/gameObjectFS.glsl";
 	
 	private Camera cam;
 	
